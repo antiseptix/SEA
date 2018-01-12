@@ -1,0 +1,16 @@
+Création d'un fichier en mode caractère : dd if=/dev/urandom of=/tmp/txt.txt bs=2G (attention création du fichier sans intérruption)
+
+mkdir /sys/fs/cgroup/blkio/tp1_blkio 
+
+echo $$ < tasks (ajoute le shell courrant au regle créé dans tp1_blkio)
+
+echo "8:0 52428800" < /sys/fs/cgroup/blkio/tp1_blkio/blkio.throttle.read_bps_device
+
+cp /tmp/txt.txt /tmp/yolo.txt echo
+
+
+mkdir /sys/fs/cgroup/memory/tp1_memory
+
+echo "52428800" < /sys/fs/cgroup/memory/tp1_memory/memory.limit_in_bytes
+
+/cgexec -g memory:tp1_memory /bin/bash
