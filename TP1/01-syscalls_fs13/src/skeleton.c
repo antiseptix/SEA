@@ -6,15 +6,26 @@
  * \date 10 septembre 2016
  *
  * Basic parsing options skeleton exemple c file.
- */
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<errno.h>
-#include <fcntl.h>
-#include<getopt.h>
-#include <sys/stat.h>
+ */ 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include <unistd.h>
+#include <linux/limits.h>
+#include <dirent.h>
+#include <pwd.h>
+#include <grp.h>
+#include <time.h>
+
+#include <getopt.h>
+
 
 #define STDOUT 1
 #define STDERR 2
@@ -22,10 +33,8 @@
 #define MAX_PATH_LENGTH 4096
 
 
-#define USAGE_SYNTAX "[OPTIONS] -i INPUT -o OUTPUT"
+#define USAGE_SYNTAX "[OPTIONS]"
 #define USAGE_PARAMS "OPTIONS:\n\
-  -i, --input  INPUT_FILE  : input file\n\
-  -o, --output OUTPUT_FILE : output file\n\
 ***\n\
   -v, --verbose : enable *verbose* mode\n\
   -h, --help    : display this help\n\
@@ -91,8 +100,6 @@ static struct option binary_opts[] =
 {
   { "help",    no_argument,       0, 'h' },
   { "verbose", no_argument,       0, 'v' },
-  { "input",   required_argument, 0, 'i' },
-  { "output",  required_argument, 0, 'o' },
   { 0,         0,                 0,  0  } 
 };
 
@@ -118,8 +125,6 @@ int main(int argc, char** argv)
    * (could be defined in a structure)
    */
   short int is_verbose_mode = 0;
-  char* bin_input_param = NULL;
-  char* bin_output_param = NULL;
 
   // Parsing options
   int opt = -1;
@@ -129,20 +134,6 @@ int main(int argc, char** argv)
   {
     switch (opt)
     {
-      case 'i':
-        //input param
-        if (optarg)
-        {
-          bin_input_param = dup_optarg_str();         
-        }
-        break;
-      case 'o':
-        //output param
-        if (optarg)
-        {
-          bin_output_param = dup_optarg_str();
-        }
-        break;
       case 'v':
         //verbose mode
         is_verbose_mode = 1;
@@ -150,59 +141,67 @@ int main(int argc, char** argv)
       case 'h':
         print_usage(argv[0]);
 
-        free_if_needed(bin_input_param);
-        free_if_needed(bin_output_param);
- 
+         
         exit(EXIT_SUCCESS);
       default :
         break;
     }
   } 
 
-  /**
-   * Checking binary requirements
-   * (could defined in a separate function)
-   */
-  if (bin_input_param == NULL || bin_output_param == NULL)
-  {
-    dprintf(STDERR, "Bad usage! See HELP [--help|-h]\n");
-
-    // Freeing allocated data
-    free_if_needed(bin_input_param);
-    free_if_needed(bin_output_param);
-    // Exiting with a failure ERROR CODE (== 1)
-    exit(EXIT_FAILURE);
-  }
 
 
   // Printing params
-  dprintf(1, "** PARAMS **\n%-8s: %s\n%-8s: %s\n%-8s: %d\n", 
-          "input",   bin_input_param, 
-          "output",  bin_output_param, 
+  dprintf(1, "** PARAMS **\n %-8s: %d",
           "verbose", is_verbose_mode);
 
   // Business logic must be implemented at this point
-
+	
   /* LOREM IPSUM DOT SIR AMET */
-	int descInput;
-	int descOutput;
-	
-	descInput = open(bin_input_param, O_RDONLY);
-	descOutput = open(bin_output_param, O_CREAT|O_RDWR, 00777);
-			
-	
-	char* c = malloc(sizeof(char));
-	
-	while(read(descInput, &c, 1) != 0){
-		write(descOutput, &c, 1);
-	}
+  
+  errno = 0; // on réinitialise la variable errno
+  
+  //https://stackoverflow.com/questions/29993653/linux-ls-al-like-program-in-c ######################################################################"" a check
+  
+	char *curr_dir = NULL; 
+	DIR *dp = NULL; 
+	struct dirent *dptr = NULL; 
+	unsigned int count = 0; 
 
-	close(descInput);
-	close(descOutput);
-	
-  // Freeing allocated data
-  free_if_needed(bin_input_param);
-  free_if_needed(bin_output_param);
+	// Get the value of environment variable PWD 
+	curr_dir = getenv("PWD");
+	if(NULL == curr_dir) 
+	{ 
+		printf("\n ERROR : Could not get the working directory\n"); 
+		return -1; 
+	} 
+
+	// Open the current directory 
+	dp = opendir((const char*)curr_dir); 
+	if(NULL == dp)
+	{ 
+		printf("\n ERROR : Could not open the working directory\n"); 
+		return -1; 
+	} 
+
+	printf("\n"); 
+	// Go through and display all the names (files or folders) 
+	// Contained in the directory. 
+	for(count = 0; NULL != (dptr = readdir(dp)); count++) 
+	{ 
+		printf("%s %s ",dptr->d_name,dptr->d_size); 
+	} 
+	printf("\n %u", count);
+
+
+
+
+	//gestion des erreurs (utilisation de strerror())
+	if(errno != 0)
+	{
+	  fprintf(stderr,"Erreur : %s\n",strerror(errno));
+	  return EXIT_FAILURE;
+	}
+  
 
 
   return EXIT_SUCCESS;
