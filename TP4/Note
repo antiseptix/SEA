@@ -2,7 +2,10 @@ Création d'un fichier en mode caractère : dd if=/dev/urandom of=/tmp/txt.txt b
 
 mkdir /sys/fs/cgroup/blkio/tp1_blkio 
 
+
 echo $$ < tasks (ajoute le shell courrant au regle créé dans tp1_blkio)
+(pareil que de faire un cgexec, je crois...)
+
 
 echo "8:0 52428800" < /sys/fs/cgroup/blkio/tp1_blkio/blkio.throttle.read_bps_device
 
@@ -14,3 +17,12 @@ mkdir /sys/fs/cgroup/memory/tp1_memory
 echo "52428800" < /sys/fs/cgroup/memory/tp1_memory/memory.limit_in_bytes
 
 /cgexec -g memory:tp1_memory /bin/bash
+
+
+
+Pour faire un cgsnapchot : 
+
+-f précise le fichier de sorti
+-b précise le fichier de configuration blacklist
+
+cgsnapshot -f my-rules -b /usr/share/doc/cgroup-tools/examples/cgsnapshot_blacklist.conf 
