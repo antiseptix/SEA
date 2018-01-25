@@ -111,6 +111,79 @@ static struct option binary_opts[] =
  */ 
 const char* binary_optstr = "hvi:o:";
 
+//nouvelle methode ajouté pour le tp1 fontion 3
+int list_dir(const char *dirname)     { 
+
+struct dirent* current_directory;
+struct stat my_stat;
+struct tm lt;  
+struct passwd *pwd; // For User-ID
+
+DIR* directory = opendir(dirname);
+
+
+    if(directory == NULL)     { 
+
+    printf("list_dir : %s : %s \n", dirname, strerror(errno));
+
+    return 0;
+}   
+
+    printf("Directory : %s\n", dirname);
+    printf("\n");
+
+    while( (current_directory = readdir(directory) ) )     { 
+
+    stat(current_directory->d_name, &my_stat);  
+
+        if ( (stat(current_directory->d_name, &my_stat) ) == 0 )    {
+
+        pwd = getpwuid(my_stat.st_uid); // Get User-ID
+
+    }
+    
+		//Permission
+		mode_t p = my_stat.st_mode;
+		printf("Mode : %lo (octal)\n",(unsigned long) p);
+		
+		printf("File Permissions: \t");
+		printf( (S_ISDIR(my_stat.st_mode)) ? "d" : "-");
+		printf( (my_stat.st_mode & S_IRUSR) ? "r" : "-");
+		printf( (my_stat.st_mode & S_IWUSR) ? "w" : "-");
+		printf( (my_stat.st_mode & S_IXUSR) ? "x" : "-");
+		printf( (my_stat.st_mode & S_IRGRP) ? "r" : "-");
+		printf( (my_stat.st_mode & S_IWGRP) ? "w" : "-");
+		printf( (my_stat.st_mode & S_IXGRP) ? "x" : "-");
+		printf( (my_stat.st_mode & S_IROTH) ? "r" : "-");
+		printf( (my_stat.st_mode & S_IWOTH) ? "w" : "-");
+		printf( (my_stat.st_mode & S_IXOTH) ? "x" : "-");
+		printf("\n\n");
+		
+		//test pour le propriétaire
+		printf("pwd-> name : %s \t mystat.stuid: %d", pwd->pw_name,my_stat.st_uid);
+        printf("\n");
+	
+        // Last Modified
+        time_t t = my_stat.st_mtime;
+        localtime_r(&t, &lt);
+        char timebuf[80];
+        strftime(timebuf, sizeof(timebuf), "%c", &lt);
+
+        if (pwd != 0) {
+
+        printf("%s \t %ld \t %s \t %s", pwd->pw_name, (long)my_stat.st_size, timebuf, current_directory->d_name);
+        printf("\n");
+
+        } else  {
+
+            printf("%d \t %ld \t %s \t %s", my_stat.st_uid, (long)my_stat.st_size, timebuf, current_directory->d_name);
+            printf("\n");
+        } 
+}
+    closedir(directory);        
+
+    return 0; 
+}
 
 
 /**
@@ -139,16 +212,12 @@ int main(int argc, char** argv)
         is_verbose_mode = 1;
         break;
       case 'h':
-        print_usage(argv[0]);
-
-         
+        print_usage(argv[0]);         
         exit(EXIT_SUCCESS);
       default :
         break;
     }
   } 
-
-
 
   // Printing params
   dprintf(1, "** PARAMS **\n %-8s: %d",
@@ -161,7 +230,9 @@ int main(int argc, char** argv)
   errno = 0; // on réinitialise la variable errno
   
   //https://stackoverflow.com/questions/29993653/linux-ls-al-like-program-in-c ######################################################################"" a check
-  
+  //https://stackoverflow.com/questions/10323060/printing-file-permissions-like-ls-l-using-stat2-in-c #### pour les permission
+  //avec structure stat => permet d'obtenit l'état d'un fichier.
+	
 	char *curr_dir = NULL; 
 	DIR *dp = NULL; 
 	struct dirent *dptr = NULL; 
@@ -171,7 +242,8 @@ int main(int argc, char** argv)
 	curr_dir = getenv("PWD");
 	if(NULL == curr_dir) 
 	{ 
-		printf("\n ERROR : Could not get the working directory\n"); 
+		printf("\n ERROR : Could not get the working directory\n");
+		//lacher un ernno ici
 		return -1; 
 	} 
 
@@ -180,20 +252,26 @@ int main(int argc, char** argv)
 	if(NULL == dp)
 	{ 
 		printf("\n ERROR : Could not open the working directory\n"); 
-		return -1; 
+		//lacher un ernno ici
+		return -1;
 	} 
 
-	printf("\n"); 
+	//-------------------- en dessous printer les infos
+	printf("\n");
+	
 	// Go through and display all the names (files or folders) 
 	// Contained in the directory. 
 	for(count = 0; NULL != (dptr = readdir(dp)); count++) 
 	{ 
-		printf("%s %s ",dptr->d_name,dptr->d_size); 
+		printf("%s %c ",dptr->d_name,dptr->d_type);
 	} 
 	printf("\n %u", count);
 
+	//passer en param le chemin à check(le rajouter dans les param si besoin mais ici on prend le repertoire racine à la console)
+	return list_dir ( "." );
 
 
+	//-----------------
 
 	//gestion des erreurs (utilisation de strerror())
 	if(errno != 0)
