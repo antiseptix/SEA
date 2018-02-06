@@ -1,6 +1,10 @@
 # SEA
+
+System d'Exploitation Avancé
+
 TP et Projet Systeme d'Exploitation 2A
 
+<<<<<<< HEAD
 Revoir toute les taboulations 
 -------------------------------------
 	Avancement des TPs :
@@ -20,3 +24,6 @@ Revoir toute les taboulations
 -TP5 "docker" : NOK
 
 -------------------------------------
+=======
+Pierre LERROY
+>>>>>>> e3a2b8061cd2b5907b3234fa94fc503db90243f0
