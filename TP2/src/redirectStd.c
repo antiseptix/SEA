@@ -10,15 +10,15 @@
 #define STDERR 2
 
 int main(int argc, char** argv){
-    
+
 	if(argc <= 1 )
-    { 
+    {
         dprintf(STDERR, "Too few arguments. One minimum is required.\n");
        	exit(EXIT_FAILURE);
     }
     else
     {
-        dprintf(STDOUT, "Le premiere argument saisi est : %s\n", argv[1]);   
+      dprintf(STDOUT, "Le premiere argument saisi est : %s\n", argv[1]);   
     }
 
 	int f;
@@ -49,6 +49,6 @@ int main(int argc, char** argv){
 
 	pid_t getpid(void);
 	pid_t getppid(void);
-    
+
     return EXIT_SUCCESS;
 }

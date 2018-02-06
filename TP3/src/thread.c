@@ -15,7 +15,7 @@ typedef struct
 void initializeTab(int *tab)
 {
   int i;
-    time_t t;
+  time_t t;
   srand((unsigned) time(&t)); // initialisation de rand
   for(i=0; i < SIZE; i++ )
   {
@@ -52,7 +52,11 @@ void createThread(int nbThread, int *tab)
   if(nbThread<=0)
     exit(1);
 
-  int size = SIZE/nbThread;
+  int size = SIZE/nbThread, reste = SIZE%nbThread;
+  if (reste!=0)
+  {
+
+  }
 
   for(i=0; i<nbThread; i++)
   {
