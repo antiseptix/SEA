@@ -5,7 +5,7 @@ System d'Exploitation Avancé
 TP et Projet Systeme d'Exploitation 2A
 
 <<<<<<< HEAD
-Revoir toute les taboulations 
+Revoir toute les taboulations
 -------------------------------------
 	Avancement des TPs :
 -TP1 "copy" : OK
