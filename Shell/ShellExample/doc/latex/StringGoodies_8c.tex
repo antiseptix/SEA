@@ -1,0 +1,136 @@
+\hypertarget{StringGoodies_8c}{}\section{Référence du fichier src/\+String\+Goodies.c}
+\label{StringGoodies_8c}\index{src/\+String\+Goodies.\+c@{src/\+String\+Goodies.\+c}}
+
+
+Fichier utilitaire créer pour faciliter le traitement des chaînes de caractères.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}String\+Goodies.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$assert.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+Graphe des dépendances par inclusion de String\+Goodies.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{StringGoodies_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{StringGoodies_8c_a205c8acb2ef70f038f32e5fe361cc8d9}{trimwhitespace} (char $\ast$str)
+\begin{DoxyCompactList}\small\item\em fonction qui permet de supprimer les caracteres blancs en debut et en fin de chaine \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{StringGoodies_8c_af59be06bfad0cf133ab6f4aca7b5b074}{str\+\_\+replace} (char $\ast$orig, char $\ast$rep, char $\ast$with)
+\begin{DoxyCompactList}\small\item\em fonction qui permet de remplacer la chaine rep par with \end{DoxyCompactList}\item 
+char $\ast$$\ast$ \hyperlink{StringGoodies_8c_ab39a39cfc3dafcdd137ec53ca81936d7}{str\+\_\+split} (char $\ast$a\+\_\+str, const char a\+\_\+delim)
+\begin{DoxyCompactList}\small\item\em fonction qui permet de spliter une chaine par rapport a un caractere \end{DoxyCompactList}\item 
+bool \hyperlink{StringGoodies_8c_a266480e602ae7b55989e10c1de0d53f2}{starts\+With} (const char $\ast$pre, const char $\ast$str)
+\begin{DoxyCompactList}\small\item\em fonction qui permet de verifier si une chaine commence par une autre \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Fichier utilitaire créer pour faciliter le traitement des chaînes de caractères. 
+
+\begin{DoxyAuthor}{Auteur}
+Alexis Heil, Sabrina Bourouis 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+09 fevrier 2017
+\end{DoxyDate}
+Mini Shell de Sabrina Bourouis et Alexis Heil 
+
+\subsection{Documentation des fonctions}
+\index{String\+Goodies.\+c@{String\+Goodies.\+c}!starts\+With@{starts\+With}}
+\index{starts\+With@{starts\+With}!String\+Goodies.\+c@{String\+Goodies.\+c}}
+\subsubsection[{\texorpdfstring{starts\+With(const char $\ast$pre, const char $\ast$str)}{startsWith(const char *pre, const char *str)}}]{\setlength{\rightskip}{0pt plus 5cm}bool starts\+With (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{pre, }
+\item[{const char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}\hypertarget{StringGoodies_8c_a266480e602ae7b55989e10c1de0d53f2}{}\label{StringGoodies_8c_a266480e602ae7b55989e10c1de0d53f2}
+
+
+fonction qui permet de verifier si une chaine commence par une autre 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$ pre chaine par laquelle doit commencer str pour retourner 1 \\
+\hline
+{\em char} & str chaine dont il faut verifier qu\textquotesingle{}elle commence par pre \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int 1 si str commence par rep, 0 sinon 
+\end{DoxyReturn}
+\index{String\+Goodies.\+c@{String\+Goodies.\+c}!str\+\_\+replace@{str\+\_\+replace}}
+\index{str\+\_\+replace@{str\+\_\+replace}!String\+Goodies.\+c@{String\+Goodies.\+c}}
+\subsubsection[{\texorpdfstring{str\+\_\+replace(char $\ast$orig, char $\ast$rep, char $\ast$with)}{str_replace(char *orig, char *rep, char *with)}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ str\+\_\+replace (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{orig, }
+\item[{char $\ast$}]{rep, }
+\item[{char $\ast$}]{with}
+\end{DoxyParamCaption}
+)}\hypertarget{StringGoodies_8c_af59be06bfad0cf133ab6f4aca7b5b074}{}\label{StringGoodies_8c_af59be06bfad0cf133ab6f4aca7b5b074}
+
+
+fonction qui permet de remplacer la chaine rep par with 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$ orig chaine dans laquelle il faut remplacer rep par with \\
+\hline
+{\em char} & $\ast$ rep chaine a remplacer \\
+\hline
+{\em char} & $\ast$ with chaine par laquelle on va remplacer rep \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+char$\ast$ la chaine modifiee 
+\end{DoxyReturn}
+\index{String\+Goodies.\+c@{String\+Goodies.\+c}!str\+\_\+split@{str\+\_\+split}}
+\index{str\+\_\+split@{str\+\_\+split}!String\+Goodies.\+c@{String\+Goodies.\+c}}
+\subsubsection[{\texorpdfstring{str\+\_\+split(char $\ast$a\+\_\+str, const char a\+\_\+delim)}{str_split(char *a_str, const char a_delim)}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ str\+\_\+split (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{a\+\_\+str, }
+\item[{const char}]{a\+\_\+delim}
+\end{DoxyParamCaption}
+)}\hypertarget{StringGoodies_8c_ab39a39cfc3dafcdd137ec53ca81936d7}{}\label{StringGoodies_8c_ab39a39cfc3dafcdd137ec53ca81936d7}
+
+
+fonction qui permet de spliter une chaine par rapport a un caractere 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$ a\+\_\+str chaine a spliter \\
+\hline
+{\em char} & a\+\_\+delim caractere par rapport auquel il faut spliter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+char$\ast$$\ast$ un tableau de la chaine splitee 
+\end{DoxyReturn}
+\index{String\+Goodies.\+c@{String\+Goodies.\+c}!trimwhitespace@{trimwhitespace}}
+\index{trimwhitespace@{trimwhitespace}!String\+Goodies.\+c@{String\+Goodies.\+c}}
+\subsubsection[{\texorpdfstring{trimwhitespace(char $\ast$str)}{trimwhitespace(char *str)}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ trimwhitespace (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}\hypertarget{StringGoodies_8c_a205c8acb2ef70f038f32e5fe361cc8d9}{}\label{StringGoodies_8c_a205c8acb2ef70f038f32e5fe361cc8d9}
+
+
+fonction qui permet de supprimer les caracteres blancs en debut et en fin de chaine 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$ str chaine dont il faut supprimer les espaces \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+char$\ast$ la chaine modifiee 
+\end{DoxyReturn}

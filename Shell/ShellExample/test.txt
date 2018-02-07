@@ -1,0 +1,10 @@
+total 32
+drwxrwxr-x  7 alexis alexis 4096 janv.  5 20:38 .
+drwxr-xr-x 12 alexis alexis 4096 déc.  31 14:07 ..
+drwxrwxr-x  2 alexis alexis 4096 janv.  5 20:36 bin
+drwxrwxr-x  2 alexis alexis 4096 sept. 10 22:43 doc
+drwxrwxr-x  2 alexis alexis 4096 sept. 10 22:42 gcov
+drwxrwxr-x  2 alexis alexis 4096 janv.  1 14:58 include
+-rw-rw-r--  1 alexis alexis 1205 sept. 10 22:40 Makefile
+drwxrwxr-x  2 alexis alexis 4096 janv.  5 20:36 src
+-rw-rw-r--  1 alexis alexis    0 janv.  5 20:38 test.txt

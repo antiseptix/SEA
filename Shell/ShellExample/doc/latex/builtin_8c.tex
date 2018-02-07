@@ -1,0 +1,252 @@
+\hypertarget{builtin_8c}{}\section{Référence du fichier src/builtin.c}
+\label{builtin_8c}\index{src/builtin.\+c@{src/builtin.\+c}}
+
+
+Fichier permettant de lancer un Mini\+Shell.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$sys/stat.\+h$>$}\\*
+{\ttfamily \#include $<$fcntl.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$String\+Goodies.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}builtin.\+h\char`\"{}}\\*
+Graphe des dépendances par inclusion de builtin.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{builtin_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{builtin_8c_aee04a4727da3087227ee83278b12c351}{lsh\+\_\+num\+\_\+builtins} ()
+\begin{DoxyCompactList}\small\item\em fonction qui retourne le nombre d\textquotesingle{}element dans le tableau builtin\+\_\+str \end{DoxyCompactList}\item 
+int \hyperlink{builtin_8c_ac358e0686c4942b1ccf21b44ee4e7abc}{lsh\+\_\+cd} (char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em fonction qui correspond a l\textquotesingle{}implementation de la fonction cd \end{DoxyCompactList}\item 
+int \hyperlink{builtin_8c_ad4b8db0d9ff9cc2f8969d06667efef6b}{lsh\+\_\+help} (char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em fonction qui correspond a l\textquotesingle{}implementation de la fonction help \end{DoxyCompactList}\item 
+int \hyperlink{builtin_8c_a922a56166c20f5a20209c29efbfaf8fd}{lsh\+\_\+exit} (char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em fonction qui correspond a l\textquotesingle{}implementation de la fonction exit \end{DoxyCompactList}\item 
+int \hyperlink{builtin_8c_a1de142ca492ac2801531c75edc404cd6}{lsh\+\_\+pwd} (char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em fonction qui correspond a l\textquotesingle{}implementation de la fonction pwd \end{DoxyCompactList}\item 
+int \hyperlink{builtin_8c_ac7048ea4c2e6f715237a4f2db844b03d}{lsh\+\_\+echo} (char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em fonction qui correspond a l\textquotesingle{}implementation de la fonction echo \end{DoxyCompactList}\item 
+int \hyperlink{builtin_8c_aa2d59711ff0ae6aa4a3cc7b20894ef71}{lsh\+\_\+history} (char $\ast$$\ast$args)
+\begin{DoxyCompactList}\small\item\em fonction qui correspond a l\textquotesingle{}implementation de la fonction history \end{DoxyCompactList}\item 
+int \hyperlink{builtin_8c_aca0aefccee25b76d20a1fb12b7b1fb2a}{exec\+Builtin} (char $\ast$arg)
+\begin{DoxyCompactList}\small\item\em fonction qui permet de selectionner la bonne commande builtin a executer \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{builtin_8c_a37a367439f3da1f701aea106d2ae15c2}{builtin\+\_\+str} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em Tableau de char$\ast$ qui contient les differentes commandes qui ont ete implementees directement. \end{DoxyCompactList}\item 
+int($\ast$ \hyperlink{builtin_8c_aa69e593df077eba1b3ebca24fc4afe05}{builtin\+\_\+func} \mbox{[}$\,$\mbox{]})(char $\ast$$\ast$)
+\begin{DoxyCompactList}\small\item\em Tableau de pointeur de fonctions qui retourne un int et prenne un char $\ast$$\ast$ en parametre. Chacune de ces fonctions correspond a une des commandes implementees directement. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Fichier permettant de lancer un Mini\+Shell. 
+
+\begin{DoxyAuthor}{Auteur}
+Alexis Heil, Sabrina Bourouis 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+09 fevrier 2017
+\end{DoxyDate}
+Mini Shell de Sabrina Bourouis et Alexis Heil 
+
+\subsection{Documentation des fonctions}
+\index{builtin.\+c@{builtin.\+c}!exec\+Builtin@{exec\+Builtin}}
+\index{exec\+Builtin@{exec\+Builtin}!builtin.\+c@{builtin.\+c}}
+\subsubsection[{\texorpdfstring{exec\+Builtin(char $\ast$arg)}{execBuiltin(char *arg)}}]{\setlength{\rightskip}{0pt plus 5cm}int exec\+Builtin (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{arg}
+\end{DoxyParamCaption}
+)}\hypertarget{builtin_8c_aca0aefccee25b76d20a1fb12b7b1fb2a}{}\label{builtin_8c_aca0aefccee25b76d20a1fb12b7b1fb2a}
+
+
+fonction qui permet de selectionner la bonne commande builtin a executer 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$ args argument de la commande a executer le premier element du tableau est history \mbox{[}Pas utilise juste pour correspondre a la definition du tableau de fonction\mbox{]} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int code retour de la fonction 1 si la fonction se termine bien et 0 sinon 
+\end{DoxyReturn}
+\index{builtin.\+c@{builtin.\+c}!lsh\+\_\+cd@{lsh\+\_\+cd}}
+\index{lsh\+\_\+cd@{lsh\+\_\+cd}!builtin.\+c@{builtin.\+c}}
+\subsubsection[{\texorpdfstring{lsh\+\_\+cd(char $\ast$$\ast$args)}{lsh_cd(char **args)}}]{\setlength{\rightskip}{0pt plus 5cm}int lsh\+\_\+cd (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{args}
+\end{DoxyParamCaption}
+)}\hypertarget{builtin_8c_ac358e0686c4942b1ccf21b44ee4e7abc}{}\label{builtin_8c_ac358e0686c4942b1ccf21b44ee4e7abc}
+
+
+fonction qui correspond a l\textquotesingle{}implementation de la fonction cd 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$$\ast$ args argument de la commande a executer le premier element du tableau est cd \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int code retour de la fonction 1 si la fonction se termine bien et 0 sinon 
+\end{DoxyReturn}
+\index{builtin.\+c@{builtin.\+c}!lsh\+\_\+echo@{lsh\+\_\+echo}}
+\index{lsh\+\_\+echo@{lsh\+\_\+echo}!builtin.\+c@{builtin.\+c}}
+\subsubsection[{\texorpdfstring{lsh\+\_\+echo(char $\ast$$\ast$args)}{lsh_echo(char **args)}}]{\setlength{\rightskip}{0pt plus 5cm}int lsh\+\_\+echo (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{args}
+\end{DoxyParamCaption}
+)}\hypertarget{builtin_8c_ac7048ea4c2e6f715237a4f2db844b03d}{}\label{builtin_8c_ac7048ea4c2e6f715237a4f2db844b03d}
+
+
+fonction qui correspond a l\textquotesingle{}implementation de la fonction echo 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$$\ast$ args argument de la commande a executer le premier element du tableau est echo \mbox{[}Pas utilise juste pour correspondre a la definition du tableau de fonction\mbox{]} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int code retour de la fonction \+: 1 
+\end{DoxyReturn}
+\index{builtin.\+c@{builtin.\+c}!lsh\+\_\+exit@{lsh\+\_\+exit}}
+\index{lsh\+\_\+exit@{lsh\+\_\+exit}!builtin.\+c@{builtin.\+c}}
+\subsubsection[{\texorpdfstring{lsh\+\_\+exit(char $\ast$$\ast$args)}{lsh_exit(char **args)}}]{\setlength{\rightskip}{0pt plus 5cm}int lsh\+\_\+exit (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{args}
+\end{DoxyParamCaption}
+)}\hypertarget{builtin_8c_a922a56166c20f5a20209c29efbfaf8fd}{}\label{builtin_8c_a922a56166c20f5a20209c29efbfaf8fd}
+
+
+fonction qui correspond a l\textquotesingle{}implementation de la fonction exit 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$$\ast$ args argument de la commande a executer le premier element du tableau est exit \mbox{[}Pas utilise juste pour correspondre a la definition du tableau de fonction\mbox{]} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int code retour de la fonction \+: 0 
+\end{DoxyReturn}
+\index{builtin.\+c@{builtin.\+c}!lsh\+\_\+help@{lsh\+\_\+help}}
+\index{lsh\+\_\+help@{lsh\+\_\+help}!builtin.\+c@{builtin.\+c}}
+\subsubsection[{\texorpdfstring{lsh\+\_\+help(char $\ast$$\ast$args)}{lsh_help(char **args)}}]{\setlength{\rightskip}{0pt plus 5cm}int lsh\+\_\+help (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{args}
+\end{DoxyParamCaption}
+)}\hypertarget{builtin_8c_ad4b8db0d9ff9cc2f8969d06667efef6b}{}\label{builtin_8c_ad4b8db0d9ff9cc2f8969d06667efef6b}
+
+
+fonction qui correspond a l\textquotesingle{}implementation de la fonction help 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$$\ast$ args argument de la commande a executer le premier element du tableau est help \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int code retour de la fonction \+: 1 (elle effectue juste un affichage) 
+\end{DoxyReturn}
+\index{builtin.\+c@{builtin.\+c}!lsh\+\_\+history@{lsh\+\_\+history}}
+\index{lsh\+\_\+history@{lsh\+\_\+history}!builtin.\+c@{builtin.\+c}}
+\subsubsection[{\texorpdfstring{lsh\+\_\+history(char $\ast$$\ast$args)}{lsh_history(char **args)}}]{\setlength{\rightskip}{0pt plus 5cm}int lsh\+\_\+history (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{args}
+\end{DoxyParamCaption}
+)}\hypertarget{builtin_8c_aa2d59711ff0ae6aa4a3cc7b20894ef71}{}\label{builtin_8c_aa2d59711ff0ae6aa4a3cc7b20894ef71}
+
+
+fonction qui correspond a l\textquotesingle{}implementation de la fonction history 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$$\ast$ args argument de la commande a executer le premier element du tableau est history \mbox{[}Pas utilise juste pour correspondre a la definition du tableau de fonction\mbox{]} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int code retour de la fonction 1 si la fonction se termine bien et 0 sinon 
+\end{DoxyReturn}
+\index{builtin.\+c@{builtin.\+c}!lsh\+\_\+num\+\_\+builtins@{lsh\+\_\+num\+\_\+builtins}}
+\index{lsh\+\_\+num\+\_\+builtins@{lsh\+\_\+num\+\_\+builtins}!builtin.\+c@{builtin.\+c}}
+\subsubsection[{\texorpdfstring{lsh\+\_\+num\+\_\+builtins()}{lsh_num_builtins()}}]{\setlength{\rightskip}{0pt plus 5cm}int lsh\+\_\+num\+\_\+builtins (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{builtin_8c_aee04a4727da3087227ee83278b12c351}{}\label{builtin_8c_aee04a4727da3087227ee83278b12c351}
+
+
+fonction qui retourne le nombre d\textquotesingle{}element dans le tableau builtin\+\_\+str 
+
+\begin{DoxyReturn}{Renvoie}
+int taille du tableau builtin\+\_\+str 
+\end{DoxyReturn}
+\index{builtin.\+c@{builtin.\+c}!lsh\+\_\+pwd@{lsh\+\_\+pwd}}
+\index{lsh\+\_\+pwd@{lsh\+\_\+pwd}!builtin.\+c@{builtin.\+c}}
+\subsubsection[{\texorpdfstring{lsh\+\_\+pwd(char $\ast$$\ast$args)}{lsh_pwd(char **args)}}]{\setlength{\rightskip}{0pt plus 5cm}int lsh\+\_\+pwd (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{args}
+\end{DoxyParamCaption}
+)}\hypertarget{builtin_8c_a1de142ca492ac2801531c75edc404cd6}{}\label{builtin_8c_a1de142ca492ac2801531c75edc404cd6}
+
+
+fonction qui correspond a l\textquotesingle{}implementation de la fonction pwd 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em char} & $\ast$$\ast$ args argument de la commande a executer le premier element du tableau est pwd \mbox{[}Pas utilise juste pour correspondre a la definition du tableau de fonction\mbox{]} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int code retour de la fonction \+: 1 
+\end{DoxyReturn}
+
+
+\subsection{Documentation des variables}
+\index{builtin.\+c@{builtin.\+c}!builtin\+\_\+func@{builtin\+\_\+func}}
+\index{builtin\+\_\+func@{builtin\+\_\+func}!builtin.\+c@{builtin.\+c}}
+\subsubsection[{\texorpdfstring{builtin\+\_\+func}{builtin_func}}]{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ builtin\+\_\+func\mbox{[}$\,$\mbox{]})(char $\ast$$\ast$)}\hypertarget{builtin_8c_aa69e593df077eba1b3ebca24fc4afe05}{}\label{builtin_8c_aa69e593df077eba1b3ebca24fc4afe05}
+{\bfseries Valeur initiale \+:}
+\begin{DoxyCode}
+= \{
+  &\hyperlink{builtin_8c_ac358e0686c4942b1ccf21b44ee4e7abc}{lsh\_cd},
+  &\hyperlink{builtin_8c_ad4b8db0d9ff9cc2f8969d06667efef6b}{lsh\_help},
+  &\hyperlink{builtin_8c_a922a56166c20f5a20209c29efbfaf8fd}{lsh\_exit},
+  &\hyperlink{builtin_8c_a1de142ca492ac2801531c75edc404cd6}{lsh\_pwd},
+  &\hyperlink{builtin_8c_ac7048ea4c2e6f715237a4f2db844b03d}{lsh\_echo},
+  &\hyperlink{builtin_8c_aa2d59711ff0ae6aa4a3cc7b20894ef71}{lsh\_history}
+\}
+\end{DoxyCode}
+
+
+Tableau de pointeur de fonctions qui retourne un int et prenne un char $\ast$$\ast$ en parametre. Chacune de ces fonctions correspond a une des commandes implementees directement. 
+
+\index{builtin.\+c@{builtin.\+c}!builtin\+\_\+str@{builtin\+\_\+str}}
+\index{builtin\+\_\+str@{builtin\+\_\+str}!builtin.\+c@{builtin.\+c}}
+\subsubsection[{\texorpdfstring{builtin\+\_\+str}{builtin_str}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ builtin\+\_\+str\mbox{[}$\,$\mbox{]}}\hypertarget{builtin_8c_a37a367439f3da1f701aea106d2ae15c2}{}\label{builtin_8c_a37a367439f3da1f701aea106d2ae15c2}
+{\bfseries Valeur initiale \+:}
+\begin{DoxyCode}
+= \{
+  \textcolor{stringliteral}{"cd"},
+  \textcolor{stringliteral}{"help"},
+  \textcolor{stringliteral}{"exit"},
+  \textcolor{stringliteral}{"pwd"}, 
+  \textcolor{stringliteral}{"echo"},
+  \textcolor{stringliteral}{"history"}
+\}
+\end{DoxyCode}
+
+
+Tableau de char$\ast$ qui contient les differentes commandes qui ont ete implementees directement. 
+

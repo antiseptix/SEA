@@ -1,0 +1,715 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>SHELL Bourouis Heil: Référence du fichier src/skeleton.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SHELL Bourouis Heil
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.11 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="annotated.html"><span>Structures&#160;de&#160;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Liste&#160;des&#160;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Variables&#160;globale</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('skeleton_8c.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Définitions de type</a> &#124;
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle">
+<div class="title">Référence du fichier skeleton.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Fichier permettant de lancer un MiniShell.  
+<a href="#details">Plus de détails...</a></p>
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;errno.h&gt;</code><br />
+<code>#include &lt;sys/types.h&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;getopt.h&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &lt;sys/wait.h&gt;</code><br />
+<code>#include &lt;time.h&gt;</code><br />
+<code>#include &lt;liste_chaine.h&gt;</code><br />
+<code>#include &lt;arbr.h&gt;</code><br />
+<code>#include &lt;StringGoodies.h&gt;</code><br />
+<code>#include &lt;builtin.h&gt;</code><br />
+<code>#include &lt;assert.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Graphe des dépendances par inclusion de skeleton.c:</div>
+<div class="dyncontent">
+<div class="center"><img src="skeleton_8c__incl.png" border="0" usemap="#src_2skeleton_8c" alt=""/></div>
+<map name="src_2skeleton_8c" id="src_2skeleton_8c">
+<area shape="rect" id="node13" href="liste__chaine_8h_source.html" title="liste_chaine.h" alt="" coords="1027,155,1130,181"/>
+<area shape="rect" id="node14" href="arbr_8h_source.html" title="arbr.h" alt="" coords="1085,80,1139,107"/>
+<area shape="rect" id="node15" href="StringGoodies_8h_source.html" title="StringGoodies.h" alt="" coords="1164,80,1279,107"/>
+<area shape="rect" id="node16" href="builtin_8h_source.html" title="builtin.h" alt="" coords="1303,80,1369,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a364227bb9d1622ba1703a7decc0af3a8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a364227bb9d1622ba1703a7decc0af3a8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>COPIE_FILENAME</b>&#160;&#160;&#160;&quot;copie.txt&quot;</td></tr>
+<tr class="separator:a364227bb9d1622ba1703a7decc0af3a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8cecfc5c5c054d2875c03e77b7be15d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8cecfc5c5c054d2875c03e77b7be15d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>TRUE</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:aa8cecfc5c5c054d2875c03e77b7be15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa93f0eb578d23995850d61f7d61c55c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa93f0eb578d23995850d61f7d61c55c1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>FALSE</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:aa93f0eb578d23995850d61f7d61c55c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Définitions de type</h2></td></tr>
+<tr class="memitem:a1062901a7428fdd9c7f180f5e01ea056"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1062901a7428fdd9c7f180f5e01ea056"></a>
+typedef int&#160;</td><td class="memItemRight" valign="bottom"><b>bool</b></td></tr>
+<tr class="separator:a1062901a7428fdd9c7f180f5e01ea056"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a21a43e2b75ce805de38950c1f4ccdc91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#a21a43e2b75ce805de38950c1f4ccdc91">free_if_needed</a> (void *to_free)</td></tr>
+<tr class="separator:a21a43e2b75ce805de38950c1f4ccdc91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6420aef458e91f3aca53da83f19ed4b6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#a6420aef458e91f3aca53da83f19ed4b6">fileExists</a> (char *ptrFile)</td></tr>
+<tr class="separator:a6420aef458e91f3aca53da83f19ed4b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4921a254324a54b05f40168348662f54"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structNOEUD.html">arbre</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#a4921a254324a54b05f40168348662f54">addNode</a> (char c, <a class="el" href="structLISTE.html">liste</a> l, <a class="el" href="structNOEUD.html">arbre</a> a)</td></tr>
+<tr class="separator:a4921a254324a54b05f40168348662f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3f9a2e6ffe8b8087ab396e16adbd161"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#ac3f9a2e6ffe8b8087ab396e16adbd161">getEnvVar</a> (char *name, char **envp)</td></tr>
+<tr class="separator:ac3f9a2e6ffe8b8087ab396e16adbd161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4d711662dfcfa9b9990623b0085ef85"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#ad4d711662dfcfa9b9990623b0085ef85">getCommande</a> (char *cmd, char **envp)</td></tr>
+<tr class="separator:ad4d711662dfcfa9b9990623b0085ef85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac14a4d3d27ec36419b82f72342be3a65"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#ac14a4d3d27ec36419b82f72342be3a65">read_line</a> (void)</td></tr>
+<tr class="separator:ac14a4d3d27ec36419b82f72342be3a65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab422e50e3eacccac71158b261bc4e551"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#ab422e50e3eacccac71158b261bc4e551">askUntilTag</a> (char *tag, int fd)</td></tr>
+<tr class="separator:ab422e50e3eacccac71158b261bc4e551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac7f8bca480a9c2ad28f73a267f7f197"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#aac7f8bca480a9c2ad28f73a267f7f197">execRedirectFromFile</a> (char *cmd, char **envp, char *fileName, int append)</td></tr>
+<tr class="separator:aac7f8bca480a9c2ad28f73a267f7f197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94e80ede8525aed508a2c6400a00acc5"><td class="memItemLeft" align="right" valign="top">pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#a94e80ede8525aed508a2c6400a00acc5">execRedirectToFile</a> (char *cmd, char **envp, char *fileName, int append)</td></tr>
+<tr class="separator:a94e80ede8525aed508a2c6400a00acc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3c54986713553f8b986777981d30ec8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#af3c54986713553f8b986777981d30ec8">exec</a> (<a class="el" href="structLISTE.html">T</a> l, char **envp)</td></tr>
+<tr class="separator:af3c54986713553f8b986777981d30ec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28a4a3e1f50ea5314cbe7556071c863a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#a28a4a3e1f50ea5314cbe7556071c863a">execArbre2</a> (<a class="el" href="structNOEUD.html">arbre</a> a, char **envp, int worked, int executeNext)</td></tr>
+<tr class="separator:a28a4a3e1f50ea5314cbe7556071c863a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d433758fb210c19cf1370952db5bf02"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#a4d433758fb210c19cf1370952db5bf02">removeFirstLine</a> (int fdHistorique)</td></tr>
+<tr class="separator:a4d433758fb210c19cf1370952db5bf02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab80361f839b7c1133d94596c1fc503e5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#ab80361f839b7c1133d94596c1fc503e5">checkhistory</a> (int fdHistorique)</td></tr>
+<tr class="separator:ab80361f839b7c1133d94596c1fc503e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab618edb59c2499f39bca6547bd8a8879"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#ab618edb59c2499f39bca6547bd8a8879">isBackground</a> (<a class="el" href="structNOEUD.html">arbre</a> curArbre)</td></tr>
+<tr class="separator:ab618edb59c2499f39bca6547bd8a8879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37fb9620bb2a2ec30a4f6a5bec59aa02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structNOEUD.html">arbre</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="skeleton_8c.html#a37fb9620bb2a2ec30a4f6a5bec59aa02">createTreeFromArg</a> (char *argv, int fdHistorique)</td></tr>
+<tr class="separator:a37fb9620bb2a2ec30a4f6a5bec59aa02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a647f21a28344e1d9c643f4115516d7c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a647f21a28344e1d9c643f4115516d7c9"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>main</b> (int argc, char **argv, char **envp)</td></tr>
+<tr class="separator:a647f21a28344e1d9c643f4115516d7c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Fichier permettant de lancer un MiniShell. </p>
+<dl class="section author"><dt>Auteur</dt><dd>Alexis Heil, Sabrina Bourouis </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>09 fevrier 2017</dd></dl>
+<p>Mini Shell de Sabrina Bourouis et Alexis Heil </p>
+</div><h2 class="groupheader">Documentation des fonctions</h2>
+<a class="anchor" id="a4921a254324a54b05f40168348662f54"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structNOEUD.html">arbre</a> addNode </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structLISTE.html">liste</a>&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structNOEUD.html">arbre</a>&#160;</td>
+          <td class="paramname"><em>a</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui permet d'ajouter un noeud a l'arbre passe en parametre Noeud : Racine = c, Feuille gauche = l, Feuille droite = a </p><dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">char</td><td>c caractere a ajoute a la racine </td></tr>
+    <tr><td class="paramname">liste</td><td>l liste chainee a ajoute en tant que feuille gauche </td></tr>
+    <tr><td class="paramname">arbre</td><td>a arbre auquel on va ajouter le noeud </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>arbre une reference vers la racine de l'arbre </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab422e50e3eacccac71158b261bc4e551"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void askUntilTag </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fd</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui va demander a l'utilisateur de saisir des donnees a inserer dans le fichier fd tant que la valeur tag n'a pas ete saisie</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">char</td><td>* tag valeur que l'utilisateur doit saisir pour terminer la lecture </td></tr>
+    <tr><td class="paramname">int</td><td>fd descripteur du fichier dans lequel les donnees vont etre inseree </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ab80361f839b7c1133d94596c1fc503e5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int checkhistory </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fdHistorique</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui va supprimer la premiere ligne du fichier Historique s'il contient plus de NB_LINE_HISTORY</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">int</td><td>fdHistorique filedescripteur du fichier dont on verifie le nombre de ligne </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int le filedescripteur du fichier dont on verifie le nombre de ligne </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a37fb9620bb2a2ec30a4f6a5bec59aa02"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structNOEUD.html">arbre</a> createTreeFromArg </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>argv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fdHistorique</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>fonction qui permet de creer un arbre a partir d'une chaine de caractere </p><dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">char*</td><td>argv chaine de caracteres contenant la commande </td></tr>
+    <tr><td class="paramname">int</td><td>fdHistorique descripteur du fichier historique </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="af3c54986713553f8b986777981d30ec8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int exec </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structLISTE.html">T</a>&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>envp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui va executer la commande l</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">liste</td><td>l commande que l'utilisateur a saisi </td></tr>
+    <tr><td class="paramname">char</td><td>** envp tableau des variables d'environnement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int code retour de la commande a executer </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a28a4a3e1f50ea5314cbe7556071c863a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void execArbre2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structNOEUD.html">arbre</a>&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>envp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>worked</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>executeNext</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui va executer toutes les commandes stockees dans l'arbre a</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arbre</td><td>a arbre a executer </td></tr>
+    <tr><td class="paramname">char</td><td>** envp tableau des variables d'environnement </td></tr>
+    <tr><td class="paramname">int</td><td>worked pour connaitre le code retour de la derniere commande executee </td></tr>
+    <tr><td class="paramname">int</td><td>executeNext pour savoir si la commande de la feuille gauche doit etre executee </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int code retour de la commande a executer </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aac7f8bca480a9c2ad28f73a267f7f197"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int execRedirectFromFile </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>envp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>append</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui va recuperer le contenu d'un fichier et le passer en argument de la commande a executer</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">char</td><td>* cmd commande que l'utilisateur a tape </td></tr>
+    <tr><td class="paramname">char</td><td>** envp tableau des variables d'environnement </td></tr>
+    <tr><td class="paramname">char</td><td>* fileName nom du fichier dans lequel il faut recuperer les donnees </td></tr>
+    <tr><td class="paramname">int</td><td>append booleen qui permet de savoir s'il faut demander a l'utilisateur de saisir les donnees au clavier jusqu'à un tag </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int code retour de la commande a executer </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a94e80ede8525aed508a2c6400a00acc5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pid_t execRedirectToFile </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>envp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>append</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui va rediriger l'affichage dands un fichier</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">char</td><td>* cmd commande que l'utilisateur a tape </td></tr>
+    <tr><td class="paramname">char</td><td>** envp tableau des variables d'environnement </td></tr>
+    <tr><td class="paramname">char</td><td>* fileName nom du fichier dans lequel on va ecrire les donnees </td></tr>
+    <tr><td class="paramname">int</td><td>append booleen qui permet de savoir si on ajoute ou on remplace le contenu </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int code retour de la commande a executer </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6420aef458e91f3aca53da83f19ed4b6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int fileExists </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>ptrFile</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui verifie l'existence d'un fichier</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">char*</td><td>ptrFile nom du fichier dont il faut tester l'existence </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 = le fichier existe, 0 = le fichier n'existe pas </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a21a43e2b75ce805de38950c1f4ccdc91"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void free_if_needed </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>to_free</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Procedure permettant de verifier si la variable doit etre liberee (check: ptr != NULL)</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">void*</td><td>to_free pointeur vers une adresse memoire allouee grace a malloc, realloc,... </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>Voir également</dt><dd>man 3 free </dd></dl>
+<dl class="section return"><dt>Renvoie</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad4d711662dfcfa9b9990623b0085ef85"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* getCommande </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>envp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui permet de recuperer le fichier contenant la commande a execute necessaire pour execve</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">char</td><td>* cmd nom de la commande qu'il faut trouver </td></tr>
+    <tr><td class="paramname">char</td><td>** envp contient une entree pour chaque varaible d'environnement necessaire pour retrouver la commande Ex : Path=valueOfPAth </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* chemin vers la commande a executer </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac3f9a2e6ffe8b8087ab396e16adbd161"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* getEnvVar </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>envp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui permet de recuperer les variables d'envirronnement dans envp</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">char</td><td>* name nom de la variable d'environnement dont on souhaite recuperer la valeur </td></tr>
+    <tr><td class="paramname">char</td><td>** envp contient une entree pour chaque varaible d'environnement Ex : Path=valueOfPAth </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* la valeur de la variable d'environnement </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab618edb59c2499f39bca6547bd8a8879"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int isBackground </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structNOEUD.html">arbre</a>&#160;</td>
+          <td class="paramname"><em>curArbre</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui verifie s'il y a un caractere &amp; seul dans l'arbre, ce qui signifie que le programme doit etre executer en background</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arbre</td><td>curArbre arbre dans lequel on verifie s'il y a &amp; </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 0 si &amp; pas present 1 si present </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac14a4d3d27ec36419b82f72342be3a65"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* read_line </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui permet de lire une ligne saisi au clavier </p><dl class="section return"><dt>Renvoie</dt><dd>char* la ligne saisie au clavier </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4d433758fb210c19cf1370952db5bf02"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int removeFirstLine </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>fdHistorique</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Fonction qui va supprimer la premiere ligne d'un fichier</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">int</td><td>fdHistorique filedescripteur du fichier dont on doit supprimer la premiere ligne </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int le filedescripteur du fichier dont on a supprime la premiere ligne </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="skeleton_8c.html">skeleton.c</a></li>
+    <li class="footer">Généré par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
+</body>
+</html>
