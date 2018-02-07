@@ -111,42 +111,46 @@ static struct option binary_opts[] =
  */ 
 const char* binary_optstr = "hvi:o:";
 
+
+
+
+
 //nouvelle methode ajouté pour le tp1 fontion 3
-int list_dir(const char *dirname)     { 
+int list_dir(const char *dirname)     {
 
-struct dirent* current_directory;
-struct stat my_stat;
-struct tm lt;  
-struct passwd *pwd; // For User-ID
+	struct dirent* current_directory;
+	struct stat my_stat;
+	struct tm lt;  
+	struct passwd *pwd; // For User-ID
+	struct passwd *pwd_g; // For Group-ID
 
-DIR* directory = opendir(dirname);
+	DIR* directory = opendir(dirname); //ouverture du dossier
 
-
-    if(directory == NULL)     { 
+    if(directory == NULL)     { // ernno si ouverture du dossier impossible 
 
     printf("list_dir : %s : %s \n", dirname, strerror(errno));
 
     return 0;
-}   
+	}   
 
-    printf("Directory : %s\n", dirname);
+    printf("\nDirectory : %s\n", dirname);
     printf("\n");
 
-    while( (current_directory = readdir(directory) ) )     { 
+    while( (current_directory = readdir(directory) ) )     {
+    	printf("\n     --------------     \n");
 
-    stat(current_directory->d_name, &my_stat);  
+	    stat(current_directory->d_name, &my_stat);  // nom de l'elem
 
-        if ( (stat(current_directory->d_name, &my_stat) ) == 0 )    {
+	    if ( (stat(current_directory->d_name, &my_stat) ) == 0 )    {
+	        pwd = getpwuid(my_stat.st_uid); // Get User-ID
+	        pwd_g = getpwuid(my_stat.st_gid); // Get Group-ID
+	    }
 
-        pwd = getpwuid(my_stat.st_uid); // Get User-ID
-
-    }
+	    //nom du fichier
+	    printf("%s",current_directory->d_name);
     
-		//Permission
-		mode_t p = my_stat.st_mode;
-		printf("Mode : %lo (octal)\n",(unsigned long) p);
-		
-		printf("File Permissions: \t");
+		//Permission		
+		printf("\t");
 		printf( (S_ISDIR(my_stat.st_mode)) ? "d" : "-");
 		printf( (my_stat.st_mode & S_IRUSR) ? "r" : "-");
 		printf( (my_stat.st_mode & S_IWUSR) ? "w" : "-");
@@ -157,31 +161,37 @@ DIR* directory = opendir(dirname);
 		printf( (my_stat.st_mode & S_IROTH) ? "r" : "-");
 		printf( (my_stat.st_mode & S_IWOTH) ? "w" : "-");
 		printf( (my_stat.st_mode & S_IXOTH) ? "x" : "-");
-		printf("\n\n");
-		
-		//test pour le propriétaire
-		printf("pwd-> name : %s \t mystat.stuid: %d", pwd->pw_name,my_stat.st_uid);
+		printf("\n");
+
+		//le propriétaire
+		printf("propriétaire: %s \t groupe: %s", pwd->pw_name,pwd_g->pw_name);
         printf("\n");
-	
+
+        //taille fichier - size 
+        printf("taille: %ld \n",(long)my_stat.st_size);
+
         // Last Modified
         time_t t = my_stat.st_mtime;
         localtime_r(&t, &lt);
         char timebuf[80];
-        strftime(timebuf, sizeof(timebuf), "%c", &lt);
+        //strftime(timebuf, sizeof(timebuf), "%c", &lt);
+        strftime(timebuf, sizeof(timebuf),"%d%m%Y @ %H:%M", &lt); // mettre ici le bon format pour le buffer. OK fait !
+        printf("%s \n", timebuf );
 
+        
+
+
+		//################ surplus de la fonc 
         if (pwd != 0) {
-
-        printf("%s \t %ld \t %s \t %s", pwd->pw_name, (long)my_stat.st_size, timebuf, current_directory->d_name);
-        printf("\n");
-
-        } else  {
-
+	        printf("%s \t %ld \t %s \t %s", pwd->pw_name, (long)my_stat.st_size, timebuf, current_directory->d_name);
+	        printf("\n");
+        } else  { // si on ne peut pas avoir le nom du prop on affiche son user id UID à la place
             printf("%d \t %ld \t %s \t %s", my_stat.st_uid, (long)my_stat.st_size, timebuf, current_directory->d_name);
             printf("\n");
-        } 
-}
-    closedir(directory);        
+        }
 
+	}
+    closedir(directory);
     return 0; 
 }
 
@@ -232,6 +242,8 @@ int main(int argc, char** argv)
   //https://stackoverflow.com/questions/29993653/linux-ls-al-like-program-in-c ######################################################################"" a check
   //https://stackoverflow.com/questions/10323060/printing-file-permissions-like-ls-l-using-stat2-in-c #### pour les permission
   //avec structure stat => permet d'obtenit l'état d'un fichier.
+
+  	printf("\nInformations des fichiers & répertoires présents :\n");
 	
 	char *curr_dir = NULL; 
 	DIR *dp = NULL; 
@@ -263,9 +275,9 @@ int main(int argc, char** argv)
 	// Contained in the directory. 
 	for(count = 0; NULL != (dptr = readdir(dp)); count++) 
 	{ 
-		printf("%s %c ",dptr->d_name,dptr->d_type);
+		printf(" %s ",dptr->d_name);
 	} 
-	printf("\n %u", count);
+	printf("\n nombre d'élements :  %u \n", count);
 
 	//passer en param le chemin à check(le rajouter dans les param si besoin mais ici on prend le repertoire racine à la console)
 	return list_dir ( "." );
