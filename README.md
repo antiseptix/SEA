@@ -27,3 +27,8 @@ Revoir toute les taboulations
 =======
 Pierre LERROY
 >>>>>>> e3a2b8061cd2b5907b3234fa94fc503db90243f0
+
+###### lien utiles de recherche
+https://openclassrooms.com/forum/sujet/couper-chaine-caractere-pour-mettre-dans-un-tableau-26376
+
+https://www.developpez.net/forums/d1068883/general-developpement/programmation-systeme/windows/decouper-chaine-caractere-langage-c/
