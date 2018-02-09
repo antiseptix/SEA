@@ -2,18 +2,20 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <pthread.h>
-
+//TP-3-b : processus et thread
+//initialisation du grand tbl d'entier (pas très grand pour les tests)
 //Pour changer la taille du tableau
-#define SIZE (int) 10
+#define SIZE (int) 1000
+//#define SIZE (int) 1e8
 
-//Création de la structure résultat
+//Création de la structure résultat - pour la recherche du min et max value du tableau
 typedef struct
 {
   int min;
   int max;
 }Resultat;
 
-
+//initialisation tu tableau avec des entiers aléatoires
 void initializeTab(int *tab)
 {
   int i;
@@ -21,17 +23,18 @@ void initializeTab(int *tab)
   srand((unsigned) time(&t)); // initialisation de rand
   for(i=0; i < SIZE; i++ )
   {
-// Création des nombres au random
+    // Création des nombres au random
     tab[i] = rand()%9999999;
-//    printf("%d\n", tab[i]); Pour afficher les chiffre générés
+    //printf("%d\n", tab[i]); //Pour afficher les chiffre générés
   }
   printf("---Tableau initialisé--- \n");
 }
 
-int find_min_max(int tab[], Resultat* result)
+int find_min_max(int tab[], Resultat* result) // recherche OK
 {
-  //result->max=tab[0];
-  //result->min=tab[0];
+  //init des values min et max
+  result->max=tab[0];
+  result->min=tab[0];
   int i;
   for(i=0; i < SIZE; i++ )
   {
@@ -71,35 +74,34 @@ void createThread(int nbThread, int *tab)
 
 int main(int argc, char** argv)
 {
-// Création de la structure résultat
+  // Instantiation de la structure résultat
   Resultat result;
-  result.min=100000000000;
-  int *tab = (int *)malloc(SIZE*sizeof(int));
+
+  int *tab = (int *)malloc(SIZE*sizeof(int)); //Instantiation du tableau
   initializeTab(tab);
 
-//structure timeval existante avec l'include de time
+  //structure timeval existante avec l'include de time
   struct timeval temps_avant, temps_apres;
   //Récupération du temps avant
   gettimeofday(&temps_avant, NULL);
-
+  //traitement tableau
   find_min_max(tab, &result);
   //Récupération du temps après
   gettimeofday(&temps_apres, NULL);
 
-  printf("Avant : %d us\n",temps_avant);
-  printf("Apres : %d us\n",temps_apres);
+  printf("Avant : %ld us\n",temps_avant.tv_usec);
+  printf("Apres : %ld us\n",temps_apres.tv_usec);
 
   printf("MIN : %d\n", result.min);
   printf("MAX : %d\n", result.max);
   printf("Temps de recherche : %ld us \n", (temps_apres.tv_usec-temps_avant.tv_usec));
-  //printf("MAX : %d\n", find_max(tab));
 
 
   // TEST DE CREATION DE THREAD
 
-  //pthread_t thread;
-  //pthread_create(&thread, NULL, yolo, NULL);
-  //pthread_join(thread, NULL);
+  pthread_t thread;
+  //pthread_create(&thread, NULL, nomDeFonctionQueTulanceDAnsLeThread, NULL);
+  //pthread_join(thread, NULL); //join = attendre la fin du thread
 
   //pthread_join(thread, NULL);
 

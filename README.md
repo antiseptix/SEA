@@ -10,7 +10,8 @@ Revoir toute les taboulations
 	Avancement des TPs :
 -TP1 "copy" : OK
      "print reverse" : OK
-     " is like" : NOK
+     " is like" : OK
+	--a formater correctement pour un rendu--
 
 -TP2 "fork" : OK
      "redirectPipe" : OK copy
