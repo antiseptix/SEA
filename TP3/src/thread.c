@@ -3,8 +3,10 @@
 #include <sys/time.h>
 #include <pthread.h>
 
+//Pour changer la taille du tableau
 #define SIZE (int) 10
 
+//Création de la structure résultat
 typedef struct
 {
   int min;
@@ -19,12 +21,12 @@ void initializeTab(int *tab)
   srand((unsigned) time(&t)); // initialisation de rand
   for(i=0; i < SIZE; i++ )
   {
+// Création des nombres au random
     tab[i] = rand()%9999999;
-    printf("%d\n", tab[i]);
+//    printf("%d\n", tab[i]); Pour afficher les chiffre générés
   }
   printf("---Tableau initialisé--- \n");
 }
-
 
 int find_min_max(int tab[], Resultat* result)
 {
@@ -48,7 +50,7 @@ int find_min_max(int tab[], Resultat* result)
 void createThread(int nbThread, int *tab)
 {
   pthread_t tabThread[nbThread];
-
+//Vérification que le nombre de thread est suppérieur à 0
   if(nbThread<=0)
     exit(1);
 
@@ -58,10 +60,10 @@ void createThread(int nbThread, int *tab)
 
   }
 
-  for(i=0; i<nbThread; i++)
-  {
-    pthread_create(&tabThread[i], NULL, &find_min_max);
-  }
+//  for(i=0; i<nbThread; i++)
+//  {
+//    pthread_create(&tabThread[i], NULL, &find_min_max);
+//  }
 
 
 }
@@ -69,16 +71,19 @@ void createThread(int nbThread, int *tab)
 
 int main(int argc, char** argv)
 {
+// Création de la structure résultat
   Resultat result;
   result.min=100000000000;
   int *tab = (int *)malloc(SIZE*sizeof(int));
   initializeTab(tab);
 
+//structure timeval existante avec l'include de time
   struct timeval temps_avant, temps_apres;
+  //Récupération du temps avant
   gettimeofday(&temps_avant, NULL);
 
   find_min_max(tab, &result);
-
+  //Récupération du temps après
   gettimeofday(&temps_apres, NULL);
 
   printf("Avant : %d us\n",temps_avant);
@@ -89,11 +94,15 @@ int main(int argc, char** argv)
   printf("Temps de recherche : %ld us \n", (temps_apres.tv_usec-temps_avant.tv_usec));
   //printf("MAX : %d\n", find_max(tab));
 
+
+  // TEST DE CREATION DE THREAD
+
   //pthread_t thread;
   //pthread_create(&thread, NULL, yolo, NULL);
   //pthread_join(thread, NULL);
 
   //pthread_join(thread, NULL);
-  printf("NOUS SOMMES PU THREAD \n");
+
+  //printf("NOUS SOMMES PU THREAD \n");
 
 }
