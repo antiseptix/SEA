@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/time.h>
 #include <pthread.h>
 //TP-3-b : processus et thread
@@ -50,10 +51,18 @@ int find_min_max(int tab[], Resultat* result) // recherche OK
   return result;
 }
 
+void *find_min_max_thread(void *arg)
+{
+  find_min_max(NULL, NULL);
+
+  (void) arg;
+  pthread_exit(NULL);
+}
+
 void createThread(int nbThread, int *tab)
 {
   pthread_t tabThread[nbThread];
-//Vérification que le nombre de thread est suppérieur à 0
+  //Vérification que le nombre de thread est suppérieur à 0
   if(nbThread<=0)
     exit(1);
 
@@ -63,12 +72,20 @@ void createThread(int nbThread, int *tab)
 
   }
 
-//  for(i=0; i<nbThread; i++)
-//  {
-//    pthread_create(&tabThread[i], NULL, &find_min_max);
-//  }
+  //  for(i=0; i<nbThread; i++)
+  //  {
+  //    pthread_create(&tabThread[i], NULL, &find_min_max);
+  //  }
 
 
+}
+
+void *thread_1(void *arg)
+{
+  printf("Ola c'est l'interieur d'un thread ici !\n");
+
+  (void) arg;
+  pthread_exit(NULL);
 }
 
 
@@ -99,12 +116,26 @@ int main(int argc, char** argv)
 
   // TEST DE CREATION DE THREAD
 
-  pthread_t thread;
-  //pthread_create(&thread, NULL, nomDeFonctionQueTulanceDAnsLeThread, NULL);
-  //pthread_join(thread, NULL); //join = attendre la fin du thread
+  pthread_t thread; // variable représentant le thread
 
-  //pthread_join(thread, NULL);
+  printf("Je s'appelle THREAD \n");
+  // 1 er argurment = pointeur vers id du thread (un pthread_t)
+  // 2nd argument les attributs du thread (joignable par défaut) on utilise souvent NULL
+  //3e argument un pointeur vers la fonction à executer dans le thread de forme void * fonc(void* arg)
+  //4e argument : est l'argument à passer au thread
+  if(pthread_create(&thread, NULL, thread_1,(void*)NULL) == -1) {
+   perror("pthread_create");
+   return EXIT_FAILURE;
+  }
 
-  //printf("NOUS SOMMES PU THREAD \n");
+  //Une fois un thread lancé il va faloir donnerl'instruction d'attendre la fin de celui-ci car sinon le thread principal continue et termine son execution avant.
+  if(pthread_join(thread, NULL)){
+    perror("pthread_join");
+    return EXIT_FAILURE;
+  }//join = attendre la fin du thread
 
+  //void pthread_exit(void *ret); // pour supprimer un thread à la fin de l'utilisation
+  printf("NOUS SOMMES PU THREAD \n");
+
+  return EXIT_SUCCESS;
 }
