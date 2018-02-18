@@ -16,6 +16,15 @@ typedef struct
   int max;
 }Resultat;
 
+typedef struct
+{
+    int * tab;
+    int size;
+}arg_struct;
+
+int maxVal = 0x80000000;
+int minVal = 0x7FFFFFFF;
+
 //initialisation tu tableau avec des entiers aléatoires
 void initializeTab(int *tab)
 {
@@ -53,9 +62,21 @@ int find_min_max(int tab[], Resultat* result) // recherche OK
 
 void *find_min_max_thread(void *arg)
 {
-  find_min_max(NULL, NULL);
+  
+  arg_struct *args = (arg_struct *)arg;
+  int i;
+  for(i=0; i < args->size; i++ )
+  {
+    if(minVal > args->tab[i])
+    {
+      minVal = args->tab[i];
+    }
+    if(maxVal < args->tab[i])
+    {
+    	maxVal = args->tab[i];
+    }
+  }
 
-  (void) arg;
   pthread_exit(NULL);
 }
 
@@ -136,6 +157,28 @@ int main(int argc, char** argv)
 
   //void pthread_exit(void *ret); // pour supprimer un thread à la fin de l'utilisation
   printf("NOUS SOMMES PU THREAD \n");
+
+  //----- test fonc thread ------
+
+  printf("min value :%d\tmax value :%d\n",minVal,maxVal);
+  arg_struct argTest;
+
+  int *tabTest = (int *)malloc(SIZE*sizeof(int)); //Instantiation du tableau
+  initializeTab(tabTest);
+  argTest.tab = tabTest;
+
+  
+  pthread_t threadTri;
+  if(pthread_create(&threadTri, NULL, find_min_max_thread,(void*)&argTest) == -1) {
+   perror("pthread_create");
+   return EXIT_FAILURE;
+  }
+  if(pthread_join(threadTri, NULL)){
+    perror("pthread_join");
+    return EXIT_FAILURE;
+  }
+
+  printf("min value :%d\tmax value :%d\n",minVal,maxVal);
 
   return EXIT_SUCCESS;
 }
