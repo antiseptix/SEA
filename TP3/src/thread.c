@@ -37,6 +37,7 @@ void initializeTab(int *tab)
     tab[i] = rand()%9999999;
     //printf("%d\n", tab[i]); //Pour afficher les chiffre générés
   }
+  tab[0] = 171;
   printf("---Tableau initialisé--- \n");
 }
 
@@ -62,7 +63,7 @@ int find_min_max(int tab[], Resultat* result) // recherche OK
 
 void *find_min_max_thread(void *arg)
 {
-  
+
   arg_struct *args = (arg_struct *)arg;
   int i;
   for(i=0; i < args->size; i++ )
@@ -136,7 +137,7 @@ int main(int argc, char** argv)
 
 
   // TEST DE CREATION DE THREAD
-
+  /**
   pthread_t thread; // variable représentant le thread
 
   printf("Je s'appelle THREAD \n");
@@ -156,7 +157,7 @@ int main(int argc, char** argv)
   }//join = attendre la fin du thread
 
   //void pthread_exit(void *ret); // pour supprimer un thread à la fin de l'utilisation
-  printf("NOUS SOMMES PU THREAD \n");
+  printf("NOUS SOMMES PU THREAD \n"); **/
 
   //----- test fonc thread ------
 
@@ -167,18 +168,23 @@ int main(int argc, char** argv)
   initializeTab(tabTest);
   argTest.tab = tabTest;
 
-  
-  pthread_t threadTri;
+  printf("crétation du thread pour le tableau\n");
+  printf("%d\n", argTest);
+  printf("%d\n", &argTest);
+  printf("%d\n",argTest.tab[0] );
+
+  pthread_t threadTri;/**
   if(pthread_create(&threadTri, NULL, find_min_max_thread,(void*)&argTest) == -1) {
    perror("pthread_create");
    return EXIT_FAILURE;
   }
+  printf("thread crée , instruction join prochainement");
   if(pthread_join(threadTri, NULL)){
     perror("pthread_join");
     return EXIT_FAILURE;
   }
 
   printf("min value :%d\tmax value :%d\n",minVal,maxVal);
-
+**/
   return EXIT_SUCCESS;
 }
