@@ -3,7 +3,15 @@
 #include <unistd.h>
 #include <string.h>
 
-int main(){
+int main(int argc, char *argv[]){
+	
+	for (i=0; i < argc; i++)
+    {
+        printf("Argument %ld : %s \n", i+1, argv[i]);
+    }
+    
+   
+		
 	int c = 1;
 	char input[64] = "";
 

@@ -1,0 +1,4 @@
+ls
+pwd
+Coucou
+exit
