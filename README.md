@@ -30,3 +30,5 @@ Revoir toute les taboulations
 https://openclassrooms.com/forum/sujet/couper-chaine-caractere-pour-mettre-dans-un-tableau-26376
 
 https://www.developpez.net/forums/d1068883/general-developpement/programmation-systeme/windows/decouper-chaine-caractere-langage-c/
+
+https://stackoverflow.com/questions/8082932/connecting-n-commands-with-pipes-in-a-shell
