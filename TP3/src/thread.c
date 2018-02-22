@@ -11,6 +11,7 @@
 int *tabCommun;
 int maxVal = 0x80000000;
 int minVal = 0x7FFFFFFF;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER; /* Création du mutex */
 
 //Création de la structure résultat - pour la recherche du min et max value du tableau simple
 typedef struct
@@ -70,11 +71,15 @@ void *find_min_max_thread(void *arg)
   {
     if(minVal > tabCommun[i])
     {
+      pthread_mutex_lock(&mutex);
       minVal = tabCommun[i];
+      pthread_mutex_unlock(&mutex);
     }
     if(maxVal < tabCommun[i])
     {
+      pthread_mutex_lock(&mutex);
     	maxVal = tabCommun[i];
+      pthread_mutex_unlock(&mutex);
     }
   }
   pthread_exit(NULL);
@@ -153,34 +158,13 @@ int main(int argc, char** argv)
   //printf("Temps de recherche : %ld us \n", (temps_apres.tv_usec-temps_avant.tv_usec)); // n'est pas stable si durée trop longue
   printf("Temps de recherche : %ld us\n\n",((temps_apres.tv_sec - temps_avant.tv_sec) * 1000000 + temps_apres.tv_usec) - temps_avant.tv_usec);
 
-
   //----- test fonc thread ------
   printf("###METHODE THREAD###\n");
-  //arg_struct argTest; // struc contenant le pointeur du tbl et la taille du tbl
-
-  //argTest.tab = tabCommun;// le pointeur tableau dans argTest prend la valeur de notre pointeur.
-  //argTest.size = SIZE;
-  //pthread_t threadTri; // variable représentant le thread
 
   int nbThread = 0;
   printf("Veuillez entrer ne nombre de thread voulu :");
   scanf("%d",&nbThread);
   gettimeofday(&temps_avant, NULL);
-  // 1 er argurment = pointeur vers id du thread (un pthread_t)
-  // 2nd argument les attributs du thread (joignable par défaut) on utilise souvent NULL
-  //3e argument un pointeur vers la fonction à executer dans le thread de forme void * fonc(void* arg)
-  //4e argument : est l'argument à passer au thread
-  /**if(pthread_create(&threadTri, NULL, find_min_max_thread,(void*)&argTest) == -1) {
-   perror("pthread_create");
-   return EXIT_FAILURE;
-  }
-  printf("Thread crée , instruction join prochainement\n");
-  //Une fois un thread lancé il va faloir donnerl'instruction d'attendre la fin de celui-ci car sinon le thread principal continue et termine son execution avant.
-  if(pthread_join(threadTri, NULL)){
-    perror("pthread_join");
-    return EXIT_FAILURE;
-  }// join = attente la fin du thread **/
-
 
   createThread(nbThread);
 
@@ -190,7 +174,27 @@ int main(int argc, char** argv)
   printf("min value :%d\tmax value :%d\n",minVal,maxVal);
   printf("Temps de recherche : %ld us\n\n",((temps_apres.tv_sec - temps_avant.tv_sec) * 1000000 + temps_apres.tv_usec) - temps_avant.tv_usec);
 
+  /**
+  arg_struct argTest; // struc contenant le pointeur du tbl et la taille du tbl
+  argTest.tab = tabCommun;// le pointeur tableau dans argTest prend la valeur de notre pointeur.
+  argTest.size = SIZE;
+  pthread_t threadTri; // variable représentant le thread
 
+  // 1 er argurment = pointeur vers id du thread (un pthread_t)
+  // 2nd argument les attributs du thread (joignable par défaut) on utilise souvent NULL
+  //3e argument un pointeur vers la fonction à executer dans le thread de forme void * fonc(void* arg)
+  //4e argument : est l'argument à passer au thread
+  if(pthread_create(&threadTri, NULL, find_min_max_thread,(void*)&argTest) == -1) {
+   perror("pthread_create");
+   return EXIT_FAILURE;
+  }
+  printf("Thread crée , instruction join prochainement\n");
+  //Une fois un thread lancé il va faloir donnerl'instruction d'attendre la fin de celui-ci car sinon le thread principal continue et termine son execution avant.
+  if(pthread_join(threadTri, NULL)){
+    perror("pthread_join");
+    return EXIT_FAILURE;
+  }// join = attente la fin du thread
+  **/
 
   return EXIT_SUCCESS;
 }
