@@ -12,7 +12,7 @@ int *tabCommun;
 int maxVal = 0x80000000;
 int minVal = 0x7FFFFFFF;
 
-//Création de la structure résultat - pour la recherche du min et max value du tableau
+//Création de la structure résultat - pour la recherche du min et max value du tableau simple
 typedef struct
 {
   int min;
@@ -21,7 +21,8 @@ typedef struct
 
 typedef struct
 {
-    int * tab;
+    int borneStart;
+    int borneEnd;
     int size;
 }arg_struct;
 
@@ -63,41 +64,67 @@ void find_min_max(Resultat* result) // recherche OK
 
 void *find_min_max_thread(void *arg)
 {
-	printf("INSIDE FONC DE TRI THREAD\n");
   arg_struct *args = (arg_struct *)arg;
   int i;
-  for(i=0; i < args->size; i++ )
+  for(i=args->borneStart; i < args->borneEnd; i++ )
   {
-    if(minVal > args->tab[i])
+    if(minVal > tabCommun[i])
     {
-      minVal = args->tab[i];
+      minVal = tabCommun[i];
     }
-    if(maxVal < args->tab[i])
+    if(maxVal < tabCommun[i])
     {
-    	maxVal = args->tab[i];
+    	maxVal = tabCommun[i];
     }
   }
-  printf("FIN DU THREAD\n");
   pthread_exit(NULL);
 }
 
-void createThread(int nbThread, int *tab)
+void createThread(int nbThread)
 {
   pthread_t tabThread[nbThread];
-  //Vérification que le nombre de thread est suppérieur à 0
+  arg_struct tabArgs[nbThread];
+
   if(nbThread<=0)
-    exit(1);
-
-  int size = SIZE/nbThread, reste = SIZE%nbThread;
-  if (reste!=0)
   {
-
+    perror("On ne peut demander la création de 0 thread !");
+    exit(1);
   }
 
-  //  for(i=0; i<nbThread; i++)
-  //  {
-  //    pthread_create(&tabThread[i], NULL, &find_min_max);
-  //  }
+  int ecart = SIZE/nbThread, reste = SIZE%nbThread;
+  //si le modulo est différent de 0 il faudra rajouter le reste dans le premier ou dernier thread
+  int i =0; // entier pour les itérations
+  if (reste!=0)
+  {
+    //param particulier du premier thread qui prend en plus le resultat du modulo dans ses bornes
+    tabArgs[0].borneEnd = ecart+reste;
+    tabArgs[0].borneStart = 0;
+    tabArgs[0].size = ecart+reste;
+    pthread_create(&tabThread[0], NULL, find_min_max_thread,(void*)&tabArgs[0]);
+
+    for(i=1;i<nbThread;i++)
+    {
+      //param des arguments du thread à créer
+      tabArgs[i].borneEnd = ((i+1)*ecart)+reste;//ne pas invverser les bornes
+      tabArgs[i].borneStart = ((tabArgs[i].borneEnd)-ecart);
+      tabArgs[i].size = ecart;
+      pthread_create(&tabThread[i], NULL, find_min_max_thread,(void*)&tabArgs[i]);
+    }
+  }else{
+    for(i=0;i<nbThread;i++)
+    {
+      //param des arguments du thread à créer
+      tabArgs[i].borneEnd = ((i+1)*ecart);//ne pas invverser les bornes
+      tabArgs[i].borneStart = ((tabArgs[i].borneEnd)-ecart);
+      tabArgs[i].size = ecart;
+      pthread_create(&tabThread[i], NULL, find_min_max_thread,(void*)&tabArgs[i]);
+    }
+  }
+  //on lance le join de tous les threads
+  for(i = 0; i < nbThread; i++)
+  {
+    pthread_join(tabThread[i], NULL);
+  }
 }
 
 
@@ -119,35 +146,31 @@ int main(int argc, char** argv)
   //Récupération du temps après
   gettimeofday(&temps_apres, NULL);
 
-  printf("Avant : %ld us\n",temps_avant.tv_usec);
-  printf("Apres : %ld us\n",temps_apres.tv_usec);
-  printf("Avant : %ld us\n",temps_avant.tv_sec);
-  printf("Apres : %ld us\n",temps_apres.tv_sec);
-
+  printf("Avant : %ld us\tApres : %ld us\n",temps_avant.tv_usec,temps_apres.tv_usec);
+  printf("Avant : %ld s\tApres : %ld s\n",temps_avant.tv_sec,temps_apres.tv_sec);
   printf("MIN : %d\n", result.min);
   printf("MAX : %d\n", result.max);
-  printf("Temps de recherche : %ld us \n", (temps_apres.tv_usec-temps_avant.tv_usec));
-  printf("\n---- Temps de recherche : %ld us\n\n",((temps_apres.tv_sec - temps_avant.tv_sec) * 1000000 + temps_apres.tv_usec) - temps_avant.tv_usec);
+  //printf("Temps de recherche : %ld us \n", (temps_apres.tv_usec-temps_avant.tv_usec)); // n'est pas stable si durée trop longue
+  printf("Temps de recherche : %ld us\n\n",((temps_apres.tv_sec - temps_avant.tv_sec) * 1000000 + temps_apres.tv_usec) - temps_avant.tv_usec);
 
 
   //----- test fonc thread ------
   printf("###METHODE THREAD###\n");
-  printf("min value :%d\tmax value :%d\n",minVal,maxVal);
-  arg_struct argTest; // struc contenant le pointeur du tbl et la taille du tbl
+  //arg_struct argTest; // struc contenant le pointeur du tbl et la taille du tbl
 
-  argTest.tab = tabCommun;// le pointeur tableau dans argTest prend la valeur de notre pointeur.
-  argTest.size = SIZE;
+  //argTest.tab = tabCommun;// le pointeur tableau dans argTest prend la valeur de notre pointeur.
+  //argTest.size = SIZE;
+  //pthread_t threadTri; // variable représentant le thread
 
-  printf("Crétation du thread pour le tableau\n");
-
-  pthread_t threadTri; // variable représentant le thread
-
+  int nbThread = 0;
+  printf("Veuillez entrer ne nombre de thread voulu :");
+  scanf("%d",&nbThread);
   gettimeofday(&temps_avant, NULL);
   // 1 er argurment = pointeur vers id du thread (un pthread_t)
   // 2nd argument les attributs du thread (joignable par défaut) on utilise souvent NULL
   //3e argument un pointeur vers la fonction à executer dans le thread de forme void * fonc(void* arg)
   //4e argument : est l'argument à passer au thread
-  if(pthread_create(&threadTri, NULL, find_min_max_thread,(void*)&argTest) == -1) {
+  /**if(pthread_create(&threadTri, NULL, find_min_max_thread,(void*)&argTest) == -1) {
    perror("pthread_create");
    return EXIT_FAILURE;
   }
@@ -156,15 +179,18 @@ int main(int argc, char** argv)
   if(pthread_join(threadTri, NULL)){
     perror("pthread_join");
     return EXIT_FAILURE;
-  }// join = attente la fin du thread
-  gettimeofday(&temps_apres, NULL);  
-  printf("Avant : %ld us\n",temps_avant.tv_usec);
-  printf("Apres : %ld us\n",temps_apres.tv_usec);
-  printf("Avant : %ld us\n",temps_avant.tv_sec);
-  printf("Apres : %ld us\n",temps_apres.tv_sec);
-  printf("Temps de recherche : %ld us \n", (temps_apres.tv_usec-temps_avant.tv_usec));
+  }// join = attente la fin du thread **/
+
+
+  createThread(nbThread);
+
+  gettimeofday(&temps_apres, NULL);
+  printf("Avant : %ld us\tApres : %ld us\n",temps_avant.tv_usec,temps_apres.tv_usec);
+  printf("Avant : %ld s\tApres : %ld s\n",temps_avant.tv_sec,temps_apres.tv_sec);
   printf("min value :%d\tmax value :%d\n",minVal,maxVal);
-  printf("\n---- Temps de recherche : %ld us\n\n",((temps_apres.tv_sec - temps_avant.tv_sec) * 1000000 + temps_apres.tv_usec) - temps_avant.tv_usec);
+  printf("Temps de recherche : %ld us\n\n",((temps_apres.tv_sec - temps_avant.tv_sec) * 1000000 + temps_apres.tv_usec) - temps_avant.tv_usec);
+
+
 
   return EXIT_SUCCESS;
 }
