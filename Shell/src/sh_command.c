@@ -1,3 +1,10 @@
+/**
+ * \file sh_command.c
+ * \brief Fichier contenant les fonctions pour l'execution des commande built-in de notre Shell
+ * \author Arnaud Lapenna, Julien Groll
+ * \version 0.1
+ * \date 23 fevrier 2018
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -5,15 +12,25 @@
 #include <fcntl.h>
 #include <sh_command.h>
 
+/**
+ * \brief Fonction permettant de lancer la commande PWD
+ */
 void sh_pwd(){
 	char path[40] = "";
 	printf("%s \n" , getcwd(path, sizeof(path)));
 }
 
+/**
+ * \brief Fonction permettant de lancer la commande EXIT
+ */
 void sh_exit(){
 	exit(0);
 }
 
+/**
+ * \brief Fonction permettant de lancer la commande CD
+ * \param char ** args argument de la commande a executer (sous forme de tableau)
+ */
 void sh_cd(char **args){
 	char path[40] = "";
 	printf("Args[1] %s", args[1]);
@@ -29,10 +46,17 @@ void sh_cd(char **args){
 	}
 }
 
+/**
+ * \brief Fonction permettant de lancer la commande ECHO
+ * \param char ** args argument de la commande a executer (sous forme de tableau)
+ */
 void sh_echo(char **args){
 	printf("%s", args[1]);
 }
 
+/**
+ * \brief Fonction permettant de lancer la commande HELP
+ */
 void sh_help(){
 	printf("Shell réalisé par Arnaud LAPENNA et Julien GROLL \n");
 	printf("Commande prise en charge \n");
@@ -41,6 +65,10 @@ void sh_help(){
 	// }
 }
 
+/**
+ * \brief Fonction permettant d'excuter une commande reçu
+ * \param char **args argument de la commande a executer (sous forme de tableau)
+ */
 void execCommand(char **args){
 	
 	//Comparaison entre la première cellule du tableau (qui est obligatoirement une commande) et les commandes
