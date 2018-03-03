@@ -10,6 +10,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
+#include <sys/wait.h>
+#include <errno.h>
 #include <sh_command.h>
 
 /**
@@ -32,16 +34,9 @@ void sh_exit(){
  * \param char ** args argument de la commande a executer (sous forme de tableau)
  */
 void sh_cd(char **args){
-	char path[40] = "";
-	printf("Args[1] %s", args[1]);
 	if(args[1] == NULL){
-		printf("Minimum un argument requis pour executer CD \n");
+		perror("Erreur");
 	}else{
-		//getcwd(path, sizeof(path));
-		//strcat(path, "/");
-		//strcat(path, args[1]);
-		//path = "/tmp";
-		printf("CHEMIN %s \n", path);
 		chdir(args[1]);
 	}
 }
@@ -51,7 +46,15 @@ void sh_cd(char **args){
  * \param char ** args argument de la commande a executer (sous forme de tableau)
  */
 void sh_echo(char **args){
-	printf("%s", args[1]);
+	int i = 1;
+	if(args[1] != NULL){
+		while(args[i] !=NULL){
+			printf("%s ", args[i]);
+			i++;
+		}
+		printf("\n");
+	}else
+		perror("Erreur");
 }
 
 /**
@@ -59,10 +62,9 @@ void sh_echo(char **args){
  */
 void sh_help(){
 	printf("Shell réalisé par Arnaud LAPENNA et Julien GROLL \n");
-	printf("Commande prise en charge \n");
-	// for (int i = 0; i < sizeof(command_str); i++) {
-	// 	printf("  %s\n", command_str[i]);
-	// }
+	printf("Commande prise en charge :\n");
+	printf("PWD | EXIT | CD | ECHO | HELP \n");
+	
 }
 
 /**
@@ -75,17 +77,23 @@ void execCommand(char **args){
 	//Obligé de comparer avec \n derrière
 	//Bonne solution ?? Don't know
 	
-	if (strcmp(args[0], "pwd\n") == 0){
+	if (strcmp(args[0], "pwd") == 0){
 	    sh_pwd();
-	}else if(strcmp(args[0], "exit\n") == 0){
+	}else if(strcmp(args[0], "exit") == 0){
 		sh_exit();
 	}else if (strcmp(args[0], "cd") == 0){
 	    sh_cd(args);
-	}else if(strcmp(args[0], "echo\n") == 0){
+	}else if(strcmp(args[0], "echo") == 0){
 		sh_echo(args);
-	}else if(strcmp(args[0], "help\n") == 0){
+	}else if(strcmp(args[0], "help") == 0){
 		sh_help();
 	}else{
-		system(args[0]);
+		int status_pid;
+		if(fork() == 0){
+        	execvp(args[0], args);
+        	perror("Erreur ");
+            exit(1);
+		}
+		wait(&status_pid);
 	}
 }
