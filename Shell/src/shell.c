@@ -52,12 +52,12 @@ void writeHistory(char *input)
 }
 /**
  * \brief Fonction permettant d'afficher le chemin courrant dans notre shell
+ * \param string to write in the actual path at the call
+ * \param size of the variable (sizeof(string)) 
  */
-void displayPrompt()
-{
-	char path[40] = "";
+void displayPrompt(char *path,size_t size){
 	//Récupère le chemin courrant
-	getcwd(path, sizeof(path));
+	getcwd(path,size);
 	//Print le chemin courrant en couleur
 	printf("%s %s : %s", yellow, path, white);
 }
@@ -65,8 +65,11 @@ void displayPrompt()
 /**
  * \brief Fonction permettant de lancer le shell
  */
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
+	//déclaration de la var path[] qui va etre reutilisé à chaque boucle (évite la réinstanciation multiple)
+	char path[128] = "";
+	size_t sizeOfPath = sizeof(path);
+
 	//Verification que le premier argument existe
 	if(argv[1] != NULL)
 	{
@@ -81,9 +84,9 @@ int main(int argc, char *argv[])
 		char input[512] = "";
 
 		//Boucle du shell
-		while (1) 
-		{
-			displayPrompt();
+		while (1) {
+			file = fopen("history.txt", "a+");
+			displayPrompt(path,sizeOfPath);
 			
 			//Récupération des instructions de l'utilisateur
 			fgets(input, sizeof(input), stdin);
@@ -112,17 +115,22 @@ int main(int argc, char *argv[])
 			}
 			// Ajout au niveau du dernier tableau NULL pour préciser la fin du tableau pour l'execvp
 			args[i] = NULL;
-			if(searchChar(args[0], "&") == 1)
-			{
-				// Exec du thread
-				// Pour l'exec en arrière plan : ls -l & 
-				// Le & est toujours à la fin donc à changer le args[0]
-			}
-			else
-			{
-				// Exec fonction
-				execCommand(args);
-			}
+			
+			//On lance l'execution de la commande que si l'user a saisit quelque-chose (no null or only whitespace)
+			if (args[0]!= NULL){
+				if(searchChar(args[0], "&") == 1)
+				{
+					// Exec du thread
+					// Pour l'exec en arrière plan : ls -l & 
+					// Le & est toujours à la fin donc à changer le args[0]
+				}
+				else
+				{
+					// Exec fonction
+					execCommand(args);
+				}
+			}			
+			fclose(file);
 		}
 	}
 	return 1;

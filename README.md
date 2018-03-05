@@ -17,7 +17,7 @@ TP et Projet Systeme d'Exploitation 2A
      "redirectStd" : OK copy
 
 -TP3 "compteur": OK copy
-     "thread": NOK
+     "thread": OK
 
 -TP4 "cgroup" : OK
 
