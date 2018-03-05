@@ -45,7 +45,7 @@ Pour créer un espace de commentaire en début de fichier par exemple avec doxyg
  * \date 23 fevrier 2018
  */
 
-Pour commanter une fonction : 
+Pour commenter une fonction : 
 
 /**
  * \brief Courte description de la fonction
