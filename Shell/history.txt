@@ -1,0 +1,74 @@
+ls -l
+pwd
+date
+exit
+kdk
+kdk
+ldl
+ldl
+kfk
+kfk
+test
+ls
+echo ok
+lol
+lol
+pwd
+make
+exit
+echo ok
+pwd
+help
+ls
+ls
+ls -a
+ls -l
+help
+cd ..
+cd ..
+lol
+lol
+cd
+echo
+echo lol
+exit
+yo
+yo
+ls
+cd
+exit
+pwd
+exit
+pwd
+l
+l
+exit
+pwd
+ls
+exit
+pwd
+ls
+ls -l
+exit
+pwd
+exit
+pwd
+yolo
+exit
+ls -l
+exit
+ls
+&ls
+exit
+ls
+&ls
+exit
+exti
+exit
+ls
+&ls
+exit
+&ls
+ls -l
+&ls
+&ls

@@ -7,17 +7,20 @@
 static int cont = 1;
 static int nb = 0;
 
-void handlerSIGINT(){
+void handlerSIGINT()
+{
 	cont = 0;
 	printf("\nLe programme à été interrompu. Dernière valeur: %d\n", nb);
 }
 
-void handlerSIGTERM(){
+void handlerSIGTERM()
+{
 	cont = 0;
 	printf("Fin du programme\n");
 }
 
-int main (){
+int main ()
+{
 	int c=0;
 
 	// Intercepte les signaux d'interrupteurs et de fin
@@ -26,10 +29,12 @@ int main (){
 
 	printf("Le programme tourne en boucle,  CTRL + C pour l'arreter\n");
 
-	while (cont == 1){
+	while (cont == 1)
+	{
 		// Compteur incrémental
 	   	nb++;
-	    if ((nb % 100000000) == 0){
+	    if ((nb % 100000000) == 0)
+	    {
 	    	c++;
 	    	printf("%d\n", nb);
 	    	fflush(stdout);
