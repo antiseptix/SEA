@@ -12,6 +12,8 @@
 #include <string.h>
 #include <fcntl.h>
 #include <sh_command.h>
+#define yellow "\033[33;1m"
+#define white "\033[37;0m"
 
 /**
  * \brief Fonction permettant d'afficher le chemin courrant dans notre shell
@@ -21,7 +23,7 @@ void displayPrompt(){
 	//Récupère le chemin courrant
 	getcwd(path, sizeof(path));
 	//Print le chemin courrant en couleur
-	printf("\033[34m %s : \033[37m", path);
+	printf("%s %s : %s", yellow, path, white);
 }
 
 /**
@@ -36,19 +38,20 @@ int main(int argc, char *argv[]){
 		}
 	}else{		// Si le -b n'est pas trouvé on lance le shell
 		char input[512] = "";
-	
+		FILE * file;
 		//Ouverture du fichier en mode création (si il n'existe pas) , écriture seule et à la fin du fichier
-		int file = open("hystory.txt", O_CREAT | O_RDWR | O_APPEND);
+		
 
 		//Boucle du shell
 		while (1) {
+			file = fopen("history.txt", "a+");
 			displayPrompt();
 			
 	
 			//Récupération des instructions de l'utilisateur
 			fgets(input, sizeof(input), stdin);
 			//Ecriture dans le fichier avec la variable input
-			write(file, input, strlen(input));
+			fprintf(file, "%s", input);
 	
 			char *result = NULL;
 	        // Initialisation du tableau 
@@ -70,10 +73,11 @@ int main(int argc, char *argv[]){
 				result = strtok( NULL, " ");
 			}
 			args[i] = NULL;
-			//execCommand(args);
+			execCommand(args);
+			fclose(file);
 		}
 		//Fermeture du fichier
-		close(file);
 	}
-return 1;
+
+	return 1;
 }
