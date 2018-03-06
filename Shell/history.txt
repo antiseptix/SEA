@@ -72,3 +72,17 @@ exit
 ls -l
 &ls
 &ls
+pwd
+
+
+
+
+            
+ 
+echo o
+ls -a
+yes
+y
+e
+s
+exit

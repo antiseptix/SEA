@@ -17,7 +17,7 @@
 /**
  * \brief Fonction permettant de lancer la commande PWD
  */
-void sh_pwd(){
+int sh_pwd(){
 	char path[128] = "";
 	printf("%s \n" , getcwd(path, sizeof(path)));
 	return 0;

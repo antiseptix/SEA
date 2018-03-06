@@ -69,7 +69,6 @@ int main(int argc, char *argv[]){
 	//déclaration de la var path[] qui va etre reutilisé à chaque boucle (évite la réinstanciation multiple)
 	char path[128] = "";
 	size_t sizeOfPath = sizeof(path);
-
 	//Verification que le premier argument existe
 	if(argv[1] != NULL)
 	{
@@ -85,7 +84,6 @@ int main(int argc, char *argv[]){
 
 		//Boucle du shell
 		while (1) {
-			file = fopen("history.txt", "a+");
 			displayPrompt(path,sizeOfPath);
 			
 			//Récupération des instructions de l'utilisateur
@@ -130,7 +128,6 @@ int main(int argc, char *argv[]){
 					execCommand(args);
 				}
 			}			
-			fclose(file);
 		}
 	}
 	return 1;
