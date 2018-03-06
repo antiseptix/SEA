@@ -5,7 +5,7 @@
  * \version 0.1
  * \date 23 fevrier 2018
  */
- 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -18,7 +18,7 @@
 /**
  * \brief Fonction permettant la recherche d'un caractère dans une chaine
  * \param char* string Chaine à chercher char* speChar Caractère de recherche
- * \return Return 1 si le carctère est trouvé sinon 0 
+ * \return Return 1 si le carctère est trouvé sinon 0
  */
 int  searchChar(char *string, char *speChar)
 {
@@ -40,20 +40,20 @@ int  searchChar(char *string, char *speChar)
 void writeHistory(char *input)
 {
 	FILE * file;
-	
+
 	//Ouverture du fichier en mode création (si il n'existe pas) , écriture seule et à la fin du fichier
-	file = fopen("history.txt", "a+");
-	
+	file = fopen("/tmp/history.txt", "a+");
+
 	//Ecriture dans le fichier avec la variable input
 	fprintf(file, "%s", input);
-	
+
 	//Fermeture du fichier
 	fclose(file);
 }
 /**
  * \brief Fonction permettant d'afficher le chemin courrant dans notre shell
  * \param string to write in the actual path at the call
- * \param size of the variable (sizeof(string)) 
+ * \param size of the variable (sizeof(string))
  */
 void displayPrompt(char *path,size_t size){
 	//Récupère le chemin courrant
@@ -85,13 +85,13 @@ int main(int argc, char *argv[]){
 		//Boucle du shell
 		while (1) {
 			displayPrompt(path,sizeOfPath);
-			
+
 			//Récupération des instructions de l'utilisateur
 			fgets(input, sizeof(input), stdin);
-			
+
 			writeHistory(input);
 			char *result = NULL;
-	        // Initialisation du tableau 
+	        // Initialisation du tableau
 	        //http://compsci.ca/v3/viewtopic.php?t=26591 <== à voir pour comprendre le**
 	        int i = 0;
 			char **args = malloc(10 * sizeof(char *));
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]){
 			{
 			    args[i] = malloc(40 * sizeof(char));
 			}
-			//Permet de changer \n en \0 
+			//Permet de changer \n en \0
 			input[strlen(input)-1] = '\0';
 			//Découpage de la chaine à chaque espace
 		    result = strtok(input, " ");
@@ -113,13 +113,13 @@ int main(int argc, char *argv[]){
 			}
 			// Ajout au niveau du dernier tableau NULL pour préciser la fin du tableau pour l'execvp
 			args[i] = NULL;
-			
+
 			//On lance l'execution de la commande que si l'user a saisit quelque-chose (no null or only whitespace)
 			if (args[0]!= NULL){
 				if(searchChar(args[0], "&") == 1)
 				{
 					// Exec du thread
-					// Pour l'exec en arrière plan : ls -l & 
+					// Pour l'exec en arrière plan : ls -l &
 					// Le & est toujours à la fin donc à changer le args[0]
 				}
 				else
@@ -127,7 +127,7 @@ int main(int argc, char *argv[]){
 					// Exec fonction
 					execCommand(args);
 				}
-			}			
+			}
 		}
 	}
 	return 1;

@@ -5,23 +5,36 @@
 Fichier contenant le main de notre Shell.  
 
 
-{\ttfamily \#include $<$stdio.\+h$>$}\newline
-{\ttfamily \#include $<$stdlib.\+h$>$}\newline
-{\ttfamily \#include $<$unistd.\+h$>$}\newline
-{\ttfamily \#include $<$string.\+h$>$}\newline
-{\ttfamily \#include $<$fcntl.\+h$>$}\newline
-{\ttfamily \#include $<$sh\+\_\+command.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$fcntl.\+h$>$}\\*
+{\ttfamily \#include $<$sh\+\_\+command.\+h$>$}\\*
 Include dependency graph for shell.\+c\+:
 % FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bfseries yellow}~\char`\"{}\textbackslash{}033\mbox{[}33;1m\char`\"{}\hypertarget{shell_8c_aaa509be08a5019c968f558d628a2a540}{}\label{shell_8c_aaa509be08a5019c968f558d628a2a540}
+
+\item 
+\#define {\bfseries white}~\char`\"{}\textbackslash{}033\mbox{[}37;0m\char`\"{}\hypertarget{shell_8c_a85bd03e30e523319b5e069e7a8a0f81d}{}\label{shell_8c_a85bd03e30e523319b5e069e7a8a0f81d}
+
+\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{shell_8c_a0ddf1224851353fc92bfbff6f499fa97}\label{shell_8c_a0ddf1224851353fc92bfbff6f499fa97}} 
-int {\bfseries main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
-\item 
-\mbox{\Hypertarget{shell_8c_afd6348097ec67f6b4d46165756a19af0}\label{shell_8c_afd6348097ec67f6b4d46165756a19af0}} 
-void {\bfseries display\+Prompt} ()
-\end{DoxyCompactItemize}
+int \hyperlink{shell_8c_adc513a5c9f6df8f1a54c83193a362499}{search\+Char} (char $\ast$string, char $\ast$spe\+Char)
+\begin{DoxyCompactList}\small\item\em Fonction permettant la recherche d\textquotesingle{}un caractère dans une chaine. \end{DoxyCompactList}\item 
+void \hyperlink{shell_8c_aa677437e368a22bce25906544e1a7255}{write\+History} (char $\ast$input)\hypertarget{shell_8c_aa677437e368a22bce25906544e1a7255}{}\label{shell_8c_aa677437e368a22bce25906544e1a7255}
+
+\begin{DoxyCompactList}\small\item\em Fonction permettant d\textquotesingle{}écrire la commande dans un fichier. \end{DoxyCompactList}\item 
+void \hyperlink{shell_8c_ab32d6280216ded7fd461be216758c27d}{display\+Prompt} (char $\ast$path, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Fonction permettant d\textquotesingle{}afficher le chemin courrant dans notre shell. \end{DoxyCompactList}\item 
+int \hyperlink{shell_8c_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})\hypertarget{shell_8c_a0ddf1224851353fc92bfbff6f499fa97}{}\label{shell_8c_a0ddf1224851353fc92bfbff6f499fa97}
+
+\begin{DoxyCompactList}\small\item\em Fonction permettant de lancer le shell. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -36,3 +49,45 @@ Arnaud Lapenna, Julien Groll
 \begin{DoxyDate}{Date}
 23 fevrier 2018 
 \end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\index{shell.\+c@{shell.\+c}!display\+Prompt@{display\+Prompt}}
+\index{display\+Prompt@{display\+Prompt}!shell.\+c@{shell.\+c}}
+\subsubsection[{\texorpdfstring{display\+Prompt(char $\ast$path, size\+\_\+t size)}{displayPrompt(char *path, size_t size)}}]{\setlength{\rightskip}{0pt plus 5cm}void display\+Prompt (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{path, }
+\item[{size\+\_\+t}]{size}
+\end{DoxyParamCaption}
+)}\hypertarget{shell_8c_ab32d6280216ded7fd461be216758c27d}{}\label{shell_8c_ab32d6280216ded7fd461be216758c27d}
+
+
+Fonction permettant d\textquotesingle{}afficher le chemin courrant dans notre shell. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & to write in the actual path at the call \\
+\hline
+{\em size} & of the variable (sizeof(string)) \\
+\hline
+\end{DoxyParams}
+\index{shell.\+c@{shell.\+c}!search\+Char@{search\+Char}}
+\index{search\+Char@{search\+Char}!shell.\+c@{shell.\+c}}
+\subsubsection[{\texorpdfstring{search\+Char(char $\ast$string, char $\ast$spe\+Char)}{searchChar(char *string, char *speChar)}}]{\setlength{\rightskip}{0pt plus 5cm}int search\+Char (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{string, }
+\item[{char $\ast$}]{spe\+Char}
+\end{DoxyParamCaption}
+)}\hypertarget{shell_8c_adc513a5c9f6df8f1a54c83193a362499}{}\label{shell_8c_adc513a5c9f6df8f1a54c83193a362499}
+
+
+Fonction permettant la recherche d\textquotesingle{}un caractère dans une chaine. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em char$\ast$} & string Chaine à chercher char$\ast$ spe\+Char Caractère de recherche \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Return 1 si le carctère est trouvé sinon 0 
+\end{DoxyReturn}

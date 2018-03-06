@@ -22,12 +22,12 @@ AR_NAME=archive_$(EXEC).tar.gz
 
 
 all: $(SRC) $(EXEC)
-    
+
 %.o:%.c
 	$(CC) $(CFLAGS) $< $(LDFLAGS) -o $@
 
-$(EXEC): $(OBJ) 
-	$(CC) -o $(BIN_DIR)/$@ -Wall -std=c99 $(LDFLAGS) $(OBJ) 
+$(EXEC): $(OBJ)
+	$(CC) -o $(BIN_DIR)/$@ -Wall -std=c99 $(LDFLAGS) $(OBJ)
 
 $(GEXEC):
 	$(CC) $(GCOVFLAGS) -o $(GCOV_DIR)/$@ -Wall $(LDFLAGS) $(SRC)
@@ -36,6 +36,7 @@ doc:
 	doxygen $(DOC_DIR)/doxygen.conf
 
 gcov: $(GEXEC)
+
 	# generate some data for gcov by calling the generated binary with various options
 	$(GCOV_DIR)/$(GEXEC) -h
 	$(GCOV_DIR)/$(GEXEC) -i input -o output -v
@@ -50,7 +51,7 @@ gcov: $(GEXEC)
 package: gcov doc all
 	rm -rf $(AR_NAME)
 	tar cvfz $(AR_NAME) ./*
-clean:	
+clean:
 	rm -rf $(OBJ)
 
 mrproper: clean
