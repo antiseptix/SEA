@@ -1,0 +1,139 @@
+        -:    0:Source:src/shell.c
+        -:    0:Graph:/home/julien/Documents/SEA/Shell/shell.gcno
+        -:    0:Data:/home/julien/Documents/SEA/Shell/shell.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/**
+        -:    2: * \file shell.c
+        -:    3: * \brief Fichier contenant le main de notre Shell
+        -:    4: * \author Arnaud Lapenna, Julien Groll
+        -:    5: * \version 0.1
+        -:    6: * \date 23 fevrier 2018
+        -:    7: */
+        -:    8:
+        -:    9:#include <stdio.h>
+        -:   10:#include <stdlib.h>
+        -:   11:#include <unistd.h>
+        -:   12:#include <string.h>
+        -:   13:#include <fcntl.h>
+        -:   14:#include <sh_command.h>
+        -:   15:#define yellow "\033[33;1m"
+        -:   16:#define white "\033[37;0m"
+        -:   17:
+        -:   18:/**
+        -:   19: * \brief Fonction permettant la recherche d'un caractère dans une chaine
+        -:   20: * \param char* string Chaine à chercher char* speChar Caractère de recherche
+        -:   21: * \return Return 1 si le carctère est trouvé sinon 0
+        -:   22: */
+    #####:   23:int  searchChar(char *string, char *speChar)
+        -:   24:{
+        -:   25:	char *temp;
+    #####:   26:	temp = strstr(string, speChar);
+    #####:   27:	if(temp != NULL)
+        -:   28:	{
+    #####:   29:		return 1;
+        -:   30:	}
+        -:   31:	else
+        -:   32:	{
+    #####:   33:		return 0;
+        -:   34:	}
+        -:   35:}
+        -:   36:
+        -:   37:/**
+        -:   38: * \brief Fonction permettant d'écrire la commande dans un fichier
+        -:   39: */
+    #####:   40:void writeHistory(char *input)
+        -:   41:{
+        -:   42:	FILE * file;
+        -:   43:
+        -:   44:	//Ouverture du fichier en mode création (si il n'existe pas) , écriture seule et à la fin du fichier
+    #####:   45:	file = fopen("/tmp/history.txt", "a+");
+        -:   46:
+        -:   47:	//Ecriture dans le fichier avec la variable input
+    #####:   48:	fprintf(file, "%s", input);
+        -:   49:
+        -:   50:	//Fermeture du fichier
+    #####:   51:	fclose(file);
+    #####:   52:}
+        -:   53:/**
+        -:   54: * \brief Fonction permettant d'afficher le chemin courrant dans notre shell
+        -:   55: * \param string to write in the actual path at the call
+        -:   56: * \param size of the variable (sizeof(string))
+        -:   57: */
+    #####:   58:void displayPrompt(char *path,size_t size){
+        -:   59:	//Récupère le chemin courrant
+    #####:   60:	getcwd(path,size);
+        -:   61:	//Print le chemin courrant en couleur
+    #####:   62:	printf("%s %s : %s", yellow, path, white);
+    #####:   63:}
+        -:   64:
+        -:   65:/**
+        -:   66: * \brief Fonction permettant de lancer le shell
+        -:   67: */
+        1:   68:int main(int argc, char *argv[]){
+        -:   69:	//déclaration de la var path[] qui va etre reutilisé à chaque boucle (évite la réinstanciation multiple)
+        1:   70:	char path[128] = "";
+        1:   71:	size_t sizeOfPath = sizeof(path);
+        -:   72:	//Verification que le premier argument existe
+        1:   73:	if(argv[1] != NULL)
+        -:   74:	{
+        -:   75:		// Recherche du -b pour le lancer en mode commande simple du tpye : "./shell -b cd Document"
+        1:   76:		if(strcmp(argv[1], "-b") == 0)
+        -:   77:		{
+        -:   78:			// Il faudra surement changer le system et remplacer par le lancement de commande fait maison
+        -:   79:		}
+        -:   80:	}
+        -:   81:	else
+        -:   82:	{		// Si le -b n'est pas trouvé on lance le shell
+    #####:   83:		char input[512] = "";
+        -:   84:
+        -:   85:		//Boucle du shell
+        -:   86:		while (1) {
+    #####:   87:			displayPrompt(path,sizeOfPath);
+        -:   88:
+        -:   89:			//Récupération des instructions de l'utilisateur
+    #####:   90:			fgets(input, sizeof(input), stdin);
+        -:   91:
+    #####:   92:			writeHistory(input);
+    #####:   93:			char *result = NULL;
+        -:   94:	        // Initialisation du tableau
+        -:   95:	        //http://compsci.ca/v3/viewtopic.php?t=26591 <== à voir pour comprendre le**
+    #####:   96:	        int i = 0;
+    #####:   97:			char **args = malloc(10 * sizeof(char *));
+    #####:   98:			for (i=0; i<10; i++)
+        -:   99:			{
+    #####:  100:			    args[i] = malloc(40 * sizeof(char));
+        -:  101:			}
+        -:  102:			//Permet de changer \n en \0
+    #####:  103:			input[strlen(input)-1] = '\0';
+        -:  104:			//Découpage de la chaine à chaque espace
+    #####:  105:		    result = strtok(input, " ");
+    #####:  106:		    i = 0;
+    #####:  107:			while (result != NULL)
+        -:  108:			{
+        -:  109:				//Copie dans la chaine dans un tableau d'argument
+    #####:  110:				strcpy(args[i], result);
+    #####:  111:				i++;
+    #####:  112:				result = strtok( NULL, " ");
+        -:  113:			}
+        -:  114:			// Ajout au niveau du dernier tableau NULL pour préciser la fin du tableau pour l'execvp
+    #####:  115:			args[i] = NULL;
+        -:  116:
+        -:  117:			//On lance l'execution de la commande que si l'user a saisit quelque-chose (no null or only whitespace)
+    #####:  118:			if (args[0]!= NULL){
+    #####:  119:				if(searchChar(args[0], "&") == 1)
+        -:  120:				{
+        -:  121:					// Exec du thread
+        -:  122:					// Pour l'exec en arrière plan : ls -l &
+        -:  123:					// Le & est toujours à la fin donc à changer le args[0]
+        -:  124:				}
+        -:  125:				else
+        -:  126:				{
+        -:  127:					// Exec fonction
+    #####:  128:					execCommand(args);
+        -:  129:				}
+        -:  130:			}
+    #####:  131:		}
+        -:  132:	}
+        1:  133:	return 1;
+        -:  134:}
