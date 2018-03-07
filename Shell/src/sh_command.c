@@ -128,6 +128,6 @@ void execCommand(char **args)
             exit(1);
 		}
 		wait(&status_pid);
-
 	}
+	printf("%d", isWorking);
 }
