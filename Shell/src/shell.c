@@ -20,18 +20,20 @@
  * \param char* string Chaine à chercher char* speChar Caractère de recherche
  * \return Return 1 si le carctère est trouvé sinon 0
  */
-int  searchChar(char *string, char *speChar)
+int  searchChar(char **args, char *speChar, int size)
 {
 	char *temp;
-	temp = strstr(string, speChar);
-	if(temp != NULL)
+	int i;
+	int isFind;
+	for(i=0; i<size; i++)
 	{
-		return 1;
+		temp = strstr(args[i], speChar);
+		if(temp != NULL)
+		{
+			return 1;			
+		}
 	}
-	else
-	{
-		return 0;
-	}
+	return 0;
 }
 
 /**
@@ -113,14 +115,44 @@ int main(int argc, char *argv[]){
 			}
 			// Ajout au niveau du dernier tableau NULL pour préciser la fin du tableau pour l'execvp
 			args[i] = NULL;
+			int size = i;
 
 			//On lance l'execution de la commande que si l'user a saisit quelque-chose (no null or only whitespace)
 			if (args[0]!= NULL){
-				if(searchChar(args[0], "&") == 1)
+				if(searchChar(args, "&", size) == 1)
 				{
+					printf("& \n");
 					// Exec du thread
 					// Pour l'exec en arrière plan : ls -l &
 					// Le & est toujours à la fin donc à changer le args[0]
+				}
+				if(searchChar(args, "&&", size) == 1)
+				{
+					printf("&& \n");
+				}
+				if(searchChar(args, "||", size) == 1)
+				{
+					printf("|| \n");
+				}
+				if(searchChar(args, "|", size) == 1)
+				{
+					printf("| \n");
+				}
+				if(searchChar(args, ">", size) == 1)
+				{
+					printf("< \n");
+				}
+				if(searchChar(args, "<", size) == 1)
+				{
+					printf("< \n");
+				}
+				if(searchChar(args, ">>", size) == 1)
+				{
+					printf(">> \n");
+				}
+				if(searchChar(args, "<<", size) == 1)
+				{
+					printf("<< \n");
 				}
 				else
 				{

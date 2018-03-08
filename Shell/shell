@@ -1,12 +1,12 @@
 .\" Manpage pour notre projet de Shell.
 .\" Contact julien.groll@gmail.com pour plus d'information.
-.TH man 8 "20/02/2018" "1.0" "Shell man page"
+.TH man "20/02/2018" "1.0" "Shell man page"
 .SH NAME
 Shell \- Permet de lancer un shell "maison"
 .SH SYNOPSIS
  : ./shell
 .SH DESCRIPTION
-Shell développé dans le cadre du CNAM pour le cours de Système d'Exploitation Avancé 
+Shell développé dans le cadre du CNAM pour le cours de Système d'Exploitation Avancé de 2ème année
 .SH OPTIONS
  -b permet de lancer le shell en mode batch (ex : ./shell -b ls -l) 
 .SH SEE ALSO
