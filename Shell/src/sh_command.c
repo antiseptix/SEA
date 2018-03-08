@@ -86,7 +86,7 @@ int sh_help()
  * \brief Fonction permettant d'excuter une commande reçu
  * \param char **args argument de la commande a executer (sous forme de tableau)
  */
-void execCommand(char **args)
+int execCommand(char **args)
 {
 	
 	//Comparaison entre la première cellule du tableau (qui est obligatoirement une commande) et les commandes
@@ -117,21 +117,39 @@ void execCommand(char **args)
 	}
 	else
 	{
-		int status_pid;
-		
-		if(fork() == 0)
+		int status_pid; //Status du process fils 
+        int dp[2]; // Tableau d'entrée sorti du pipe
+        if(pipe(dp) == -1) { // Test d'ouverture de pipe
+          perror("Pipe failed");
+          //return();
+        }
+		if(fork() == 0) //Processus fils
 		{
-			//Processus fils
 			// A faire un pipe
-			
-        	isWorking = execvp(args[0], args);
-        	perror("Erreur ");
-        	
-            exit(1);
+			// REGARDER LA DOC EN PLUS
+			dup2(1,2); // Redirection
+			dup2(dp[1],1); //Redirige l'entrée standard sur la sortie du pipe
+			close(dp[1]); // Fermeture de la sortie du pipe
+        	execvp(args[0], args);
+            exit(errno);  //Permet de quitter correctement le fils
 		}
-		wait(&status_pid);
-		
-		isWorking++; // #######################################################################################################" A ENLEVER"
+		else{
+			wait(&status_pid);
+			close(dp[1]); // Fermeture de la sortie ou l'entrée jsp du pipe
+			int size = 1;
+			char read_buff[size];
+			while(read(dp[0], read_buff, size) > 0)
+			{
+				write(1, read_buff, size);
+			}
+			if(WEXITSTATUS(status_pid) ==0)
+			{
+				return 0;
+			}
+			return 1;
+		}
+
 
 	}
+	//printf("%d", isWorking);
 }

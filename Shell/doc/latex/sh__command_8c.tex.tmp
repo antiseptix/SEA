@@ -5,33 +5,33 @@
 Fichier contenant les fonctions pour l\textquotesingle{}execution des commande built-\/in de notre Shell.  
 
 
-{\ttfamily \#include $<$stdio.\+h$>$}\newline
-{\ttfamily \#include $<$stdlib.\+h$>$}\newline
-{\ttfamily \#include $<$unistd.\+h$>$}\newline
-{\ttfamily \#include $<$string.\+h$>$}\newline
-{\ttfamily \#include $<$fcntl.\+h$>$}\newline
-{\ttfamily \#include $<$sh\+\_\+command.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$fcntl.\+h$>$}\\*
+{\ttfamily \#include $<$sys/wait.\+h$>$}\\*
+{\ttfamily \#include $<$errno.\+h$>$}\\*
+{\ttfamily \#include $<$sh\+\_\+command.\+h$>$}\\*
 Include dependency graph for sh\+\_\+command.\+c\+:
 % FIG 0
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{sh__command_8c_aa3399fbe69354da12c01df36de9cfd48}\label{sh__command_8c_aa3399fbe69354da12c01df36de9cfd48}} 
-void \mbox{\hyperlink{sh__command_8c_aa3399fbe69354da12c01df36de9cfd48}{sh\+\_\+pwd}} ()
+int \hyperlink{sh__command_8c_abc711a50a61b3f1c861c19d49e258819}{sh\+\_\+pwd} ()\hypertarget{sh__command_8c_abc711a50a61b3f1c861c19d49e258819}{}\label{sh__command_8c_abc711a50a61b3f1c861c19d49e258819}
+
 \begin{DoxyCompactList}\small\item\em Fonction permettant de lancer la commande P\+WD. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{sh__command_8c_aa932d02f8e1c1dab73a246031daaa29a}\label{sh__command_8c_aa932d02f8e1c1dab73a246031daaa29a}} 
-void \mbox{\hyperlink{sh__command_8c_aa932d02f8e1c1dab73a246031daaa29a}{sh\+\_\+exit}} ()
+int \hyperlink{sh__command_8c_a4e41dc224bf68fa133b07bc26231b5f9}{sh\+\_\+exit} ()\hypertarget{sh__command_8c_a4e41dc224bf68fa133b07bc26231b5f9}{}\label{sh__command_8c_a4e41dc224bf68fa133b07bc26231b5f9}
+
 \begin{DoxyCompactList}\small\item\em Fonction permettant de lancer la commande E\+X\+IT. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{sh__command_8c_a2226ab37284d74ecc93b916f517f10ae}\label{sh__command_8c_a2226ab37284d74ecc93b916f517f10ae}} 
-void \mbox{\hyperlink{sh__command_8c_a2226ab37284d74ecc93b916f517f10ae}{sh\+\_\+cd}} (char $\ast$$\ast$args)
+int \hyperlink{sh__command_8c_a9aa0f977496ed2eb3dcef2c34f088009}{sh\+\_\+cd} (char $\ast$$\ast$args)
 \begin{DoxyCompactList}\small\item\em Fonction permettant de lancer la commande CD. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{sh__command_8c_aaef05433f579cdba235a973fc406342f}\label{sh__command_8c_aaef05433f579cdba235a973fc406342f}} 
-void \mbox{\hyperlink{sh__command_8c_aaef05433f579cdba235a973fc406342f}{sh\+\_\+echo}} (char $\ast$$\ast$args)
+int \hyperlink{sh__command_8c_a80a1e5f75df008cd7984d0b884875303}{sh\+\_\+echo} (char $\ast$$\ast$args)
 \begin{DoxyCompactList}\small\item\em Fonction permettant de lancer la commande E\+C\+HO. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{sh__command_8c_a0f88e27abe58a329372e53e651b5ef9c}\label{sh__command_8c_a0f88e27abe58a329372e53e651b5ef9c}} 
-void \mbox{\hyperlink{sh__command_8c_a0f88e27abe58a329372e53e651b5ef9c}{sh\+\_\+help}} ()
+int \hyperlink{sh__command_8c_a0bace0a3c9c18f008a62e5fea1db47d1}{sh\+\_\+help} ()\hypertarget{sh__command_8c_a0bace0a3c9c18f008a62e5fea1db47d1}{}\label{sh__command_8c_a0bace0a3c9c18f008a62e5fea1db47d1}
+
 \begin{DoxyCompactList}\small\item\em Fonction permettant de lancer la commande H\+E\+LP. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{sh__command_8c_a1431ad5263e7ffa4775841cd4d172944}{exec\+Command}} (char $\ast$$\ast$args)
+void \hyperlink{sh__command_8c_a1431ad5263e7ffa4775841cd4d172944}{exec\+Command} (char $\ast$$\ast$args)
 \begin{DoxyCompactList}\small\item\em Fonction permettant d\textquotesingle{}excuter une commande reçu. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -50,18 +50,51 @@ Arnaud Lapenna, Julien Groll
 
 
 \subsection{Function Documentation}
-\mbox{\Hypertarget{sh__command_8c_a1431ad5263e7ffa4775841cd4d172944}\label{sh__command_8c_a1431ad5263e7ffa4775841cd4d172944}} 
 \index{sh\+\_\+command.\+c@{sh\+\_\+command.\+c}!exec\+Command@{exec\+Command}}
 \index{exec\+Command@{exec\+Command}!sh\+\_\+command.\+c@{sh\+\_\+command.\+c}}
-\subsubsection{\texorpdfstring{exec\+Command()}{execCommand()}}
-{\footnotesize\ttfamily void exec\+Command (\begin{DoxyParamCaption}\item[{char $\ast$$\ast$}]{args }\end{DoxyParamCaption})}
-
+\subsubsection[{\texorpdfstring{exec\+Command(char $\ast$$\ast$args)}{execCommand(char **args)}}]{\setlength{\rightskip}{0pt plus 5cm}void exec\+Command (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{args}
+\end{DoxyParamCaption}
+)}\hypertarget{sh__command_8c_a1431ad5263e7ffa4775841cd4d172944}{}\label{sh__command_8c_a1431ad5263e7ffa4775841cd4d172944}
 
 
 Fonction permettant d\textquotesingle{}excuter une commande reçu. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em char} & $\ast$$\ast$args récupère le tableau avec tous les arguments \\
+{\em char} & $\ast$$\ast$args argument de la commande a executer (sous forme de tableau) \\
+\hline
+\end{DoxyParams}
+\index{sh\+\_\+command.\+c@{sh\+\_\+command.\+c}!sh\+\_\+cd@{sh\+\_\+cd}}
+\index{sh\+\_\+cd@{sh\+\_\+cd}!sh\+\_\+command.\+c@{sh\+\_\+command.\+c}}
+\subsubsection[{\texorpdfstring{sh\+\_\+cd(char $\ast$$\ast$args)}{sh_cd(char **args)}}]{\setlength{\rightskip}{0pt plus 5cm}int sh\+\_\+cd (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{args}
+\end{DoxyParamCaption}
+)}\hypertarget{sh__command_8c_a9aa0f977496ed2eb3dcef2c34f088009}{}\label{sh__command_8c_a9aa0f977496ed2eb3dcef2c34f088009}
+
+
+Fonction permettant de lancer la commande CD. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em char} & $\ast$$\ast$ args argument de la commande a executer (sous forme de tableau) \\
+\hline
+\end{DoxyParams}
+\index{sh\+\_\+command.\+c@{sh\+\_\+command.\+c}!sh\+\_\+echo@{sh\+\_\+echo}}
+\index{sh\+\_\+echo@{sh\+\_\+echo}!sh\+\_\+command.\+c@{sh\+\_\+command.\+c}}
+\subsubsection[{\texorpdfstring{sh\+\_\+echo(char $\ast$$\ast$args)}{sh_echo(char **args)}}]{\setlength{\rightskip}{0pt plus 5cm}int sh\+\_\+echo (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{args}
+\end{DoxyParamCaption}
+)}\hypertarget{sh__command_8c_a80a1e5f75df008cd7984d0b884875303}{}\label{sh__command_8c_a80a1e5f75df008cd7984d0b884875303}
+
+
+Fonction permettant de lancer la commande E\+C\+HO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em char} & $\ast$$\ast$ args argument de la commande a executer (sous forme de tableau) \\
 \hline
 \end{DoxyParams}

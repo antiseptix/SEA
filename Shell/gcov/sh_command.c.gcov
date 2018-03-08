@@ -1,0 +1,138 @@
+        -:    0:Source:src/sh_command.c
+        -:    0:Graph:/home/julien/Documents/SEA/Shell/sh_command.gcno
+        -:    0:Data:/home/julien/Documents/SEA/Shell/sh_command.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/**
+        -:    2: * \file sh_command.c
+        -:    3: * \brief Fichier contenant les fonctions pour l'execution des commande built-in de notre Shell
+        -:    4: * \author Arnaud Lapenna, Julien Groll
+        -:    5: * \version 0.1
+        -:    6: * \date 23 fevrier 2018
+        -:    7: */
+        -:    8:#include <stdio.h>
+        -:    9:#include <stdlib.h>
+        -:   10:#include <unistd.h>
+        -:   11:#include <string.h>
+        -:   12:#include <fcntl.h>
+        -:   13:#include <sys/wait.h>
+        -:   14:#include <errno.h>
+        -:   15:#include <sh_command.h>
+        -:   16:
+        -:   17:/**
+        -:   18: * \brief Fonction permettant de lancer la commande PWD
+        -:   19: */
+    #####:   20:int sh_pwd(){
+    #####:   21:	char path[128] = "";
+    #####:   22:	printf("%s \n" , getcwd(path, sizeof(path)));
+    #####:   23:	return 0;
+        -:   24:}
+        -:   25:
+        -:   26:/**
+        -:   27: * \brief Fonction permettant de lancer la commande EXIT
+        -:   28: */
+    #####:   29:int sh_exit()
+        -:   30:{
+    #####:   31:	exit(0);
+        -:   32:	return 0;
+        -:   33:}
+        -:   34:
+        -:   35:/**
+        -:   36: * \brief Fonction permettant de lancer la commande CD
+        -:   37: * \param char ** args argument de la commande a executer (sous forme de tableau)
+        -:   38: */
+    #####:   39:int sh_cd(char **args)
+        -:   40:{
+    #####:   41:	if(args[1] == NULL)
+        -:   42:	{
+    #####:   43:		perror("Erreur");
+    #####:   44:		return 1;
+        -:   45:	}
+        -:   46:	else
+        -:   47:	{
+    #####:   48:		chdir(args[1]);
+    #####:   49:		return 0;
+        -:   50:	}
+        -:   51:}
+        -:   52:
+        -:   53:/**
+        -:   54: * \brief Fonction permettant de lancer la commande ECHO
+        -:   55: * \param char ** args argument de la commande a executer (sous forme de tableau)
+        -:   56: */
+    #####:   57:int sh_echo(char **args)
+        -:   58:{
+    #####:   59:	int i = 1;
+    #####:   60:	if(args[1] != NULL)
+        -:   61:	{
+    #####:   62:		while(args[i] !=NULL)
+        -:   63:		{
+    #####:   64:			printf("%s ", args[i]);
+    #####:   65:			i++;
+        -:   66:		}
+    #####:   67:		printf("\n");
+    #####:   68:		return 1;
+        -:   69:	}else
+    #####:   70:		perror("Erreur");
+    #####:   71:		return 0;
+        -:   72:}
+        -:   73:
+        -:   74:/**
+        -:   75: * \brief Fonction permettant de lancer la commande HELP
+        -:   76: */
+    #####:   77:int sh_help()
+        -:   78:{
+    #####:   79:	printf("Shell réalisé par Arnaud LAPENNA et Julien GROLL \n");
+    #####:   80:	printf("Commande prise en charge :\n");
+    #####:   81:	printf("PWD | EXIT | CD | ECHO | HELP \n");
+    #####:   82:	return 1;
+        -:   83:}
+        -:   84:
+        -:   85:/**
+        -:   86: * \brief Fonction permettant d'excuter une commande reçu
+        -:   87: * \param char **args argument de la commande a executer (sous forme de tableau)
+        -:   88: */
+    #####:   89:void execCommand(char **args)
+        -:   90:{
+        -:   91:	
+        -:   92:	//Comparaison entre la première cellule du tableau (qui est obligatoirement une commande) et les commandes
+        -:   93:	//Obligé de comparer avec \n derrière
+        -:   94:	//Bonne solution ?? Don't know
+        -:   95:	int isWorking;
+    #####:   96:	if (strcmp(args[0], "pwd") == 0)
+        -:   97:	{
+    #####:   98:	     isWorking = sh_pwd();
+        -:   99:	}
+    #####:  100:	else if(strcmp(args[0], "exit") == 0)
+        -:  101:	{
+    #####:  102:		isWorking = sh_exit();
+        -:  103:	}
+    #####:  104:	else if (strcmp(args[0], "cd") == 0)
+        -:  105:	{
+    #####:  106:	    isWorking = sh_cd(args);
+        -:  107:	}
+    #####:  108:	else if(strcmp(args[0], "echo") == 0)
+        -:  109:	{
+    #####:  110:		isWorking = sh_echo(args);
+        -:  111:	}
+    #####:  112:	else if(strcmp(args[0], "help") == 0)
+        -:  113:	{
+    #####:  114:		isWorking = sh_help();
+        -:  115:	}
+        -:  116:	else
+        -:  117:	{
+        -:  118:		int status_pid;
+        -:  119:		
+    #####:  120:		if(fork() == 0)
+        -:  121:		{
+        -:  122:			//Processus fils
+        -:  123:			// A faire un pipe
+        -:  124:			
+    #####:  125:        	isWorking = execvp(args[0], args);
+    #####:  126:        	perror("Erreur ");
+        -:  127:        	
+    #####:  128:            exit(1);
+        -:  129:		}
+    #####:  130:		wait(&status_pid);
+        -:  131:	}
+    #####:  132:	printf("%d", isWorking);
+    #####:  133:}

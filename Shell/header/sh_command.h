@@ -5,5 +5,7 @@ int sh_exit();
 int sh_cd(char **args);
 int sh_echo(char **args);
 int sh_help();
-void execCommand(char **args);
+int execCommand(char **args);
+
+
 #endif
