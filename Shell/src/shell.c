@@ -11,12 +11,28 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
-#include <sh_command.h>
+#include "sh_command.h"
+#include "tree.h"
 #define yellow "\033[33;1m"
 #define white "\033[37;0m"
 
+
 /**
- * \brief Fonction permettant la recherche d'un caractère dans une chaine
+ * \brief Fonction permettant de parser la sisie utilisateur et d'en créer une arboressance des commandres à executer
+ * \param string saisie utilisateur à parser pour l'ordre d'execusion
+ */
+void parsing(char *stringIn)
+{
+	//char string1[128] = "";
+	//char string2[128] = "";
+	//char operator[60] = "";
+	//
+
+	
+}
+
+/**
+ * \brief Fonction permettant la recherche d'une cahine de caractère dans une chaine
  * \param char* string Chaine à chercher char* speChar Caractère de recherche
  * \return Return 1 si le carctère est trouvé sinon 0 
  */
@@ -88,6 +104,8 @@ int main(int argc, char *argv[]){
 			
 			//Récupération des instructions de l'utilisateur
 			fgets(input, sizeof(input), stdin);
+
+			printf("%s",input);
 			
 			writeHistory(input);
 			char *result = NULL;

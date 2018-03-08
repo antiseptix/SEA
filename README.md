@@ -32,6 +32,13 @@ https://www.developpez.net/forums/d1068883/general-developpement/programmation-s
 
 https://stackoverflow.com/questions/8082932/connecting-n-commands-with-pipes-in-a-shell
 
+## TO DO 
+@fixme : the hystory file who is created where the path is. (Cd recreate a file)
+@TODO : déplacer la création des .o dans le répertoire bin/ et non dans src/
+@TODO : copier coller les commentaires doxy dans les .h
+@TODO : modification du rep include/ en header/ => à vérifier le makefile du coup !!
+@TODO : doit-on commenter les structures dans les headers ? : si oui : stuc header tree.h
+
 
 ## Tuto Doxygen avec tonton Julien
 

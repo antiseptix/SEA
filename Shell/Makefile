@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-Wall -c
-LDFLAGS=-I ./include/
+LDFLAGS=-I ./header/
 
 SRC_DIR=./src
-INC_DIR=./include
+INC_DIR=./header
 BIN_DIR=./bin
 DOC_DIR=./doc
 GCOV_DIR=./gcov

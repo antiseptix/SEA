@@ -12,7 +12,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <errno.h>
-#include <sh_command.h>
+#include "sh_command.h"
 
 /**
  * \brief Fonction permettant de lancer la commande PWD
@@ -92,7 +92,9 @@ void execCommand(char **args)
 	//Comparaison entre la première cellule du tableau (qui est obligatoirement une commande) et les commandes
 	//Obligé de comparer avec \n derrière
 	//Bonne solution ?? Don't know
-	int isWorking;
+	int isWorking=0; //######################################################################################################"A ENLEVER"
+	//int isWorking;
+	
 	if (strcmp(args[0], "pwd") == 0)
 	{
 	     isWorking = sh_pwd();
@@ -128,6 +130,8 @@ void execCommand(char **args)
             exit(1);
 		}
 		wait(&status_pid);
+		
+		isWorking++; // #######################################################################################################" A ENLEVER"
 
 	}
 }

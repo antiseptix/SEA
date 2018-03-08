@@ -86,3 +86,26 @@ y
 e
 s
 exit
+ls -l
+ps
+who
+ok
+exit
+ld
+ls
+cd ..
+cd ..
+cd
+
+
+cd ..
+ls
+exit
+cd ..
+exit
+pwd
+echo ok
+exit
+okay
+okay et as de
+exit
